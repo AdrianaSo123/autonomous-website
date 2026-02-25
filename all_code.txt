@@ -1,0 +1,1690 @@
+================ index.html ================
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="#" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="#services-section">Services</a>
+            <a href="#works-section">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="#contact-section">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <main class="hero fade-in">
+            <h1 id="brand-tagline" class="hero-tagline" style="font-size: clamp(3.5rem, 8vw, 6rem); max-width: 14ch;">
+                Loading...</h1>
+            <p id="brand-bio" class="hero-bio"></p>
+            <a href="#contact-section" class="btn">Let's Talk</a>
+        </main>
+
+        <!-- Services Section -->
+        <section id="services-section" class="fade-in">
+            <h2>What I Do</h2>
+            <div id="services-grid" class="grid-2col">
+                <!-- Injected Services -->
+            </div>
+        </section>
+
+        <!-- Selected Works / Systems Section -->
+        <section id="works-section" class="fade-in">
+            <h2>Selected Works \ Systems</h2>
+            <div id="works-grid" class="grid-2col">
+                <!-- Injected Works -->
+            </div>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section id="philosophy-section" class="fade-in">
+            <h2>Philosophy</h2>
+            <div class="philosophy-content">
+                <h3 id="philosophy-title"></h3>
+                <p id="philosophy-text"></p>
+            </div>
+        </section>
+
+        <!-- Proof Section -->
+        <section id="proof-section" class="fade-in">
+            <h2>Perspective</h2>
+            <div id="proof-content">
+                <!-- Injected Quote -->
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" class="fade-in">
+            <h2>Contact</h2>
+            <div id="contact-links" class="contact-links">
+                <!-- Injected Links -->
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations } from './js/app.js';
+
+        // Data Fetching and Hydration
+        async function loadContent() {
+            try {
+                const response = await fetch('content.json');
+                if (!response.ok) throw new Error('Failed to load content');
+                const data = await response.json();
+
+                // document title & Nav
+                document.title = `${data.personal_brand.name} | ${data.personal_brand.tagline}`;
+                document.getElementById('nav-brand-name').textContent = data.personal_brand.name;
+
+                // Hero Content
+                // document.getElementById('brand-name').textContent = data.personal_brand.name; // Redundant, removed per UX Audit
+                document.getElementById('brand-tagline').textContent = data.personal_brand.tagline;
+                document.getElementById('brand-bio').textContent = data.personal_brand.bio;
+
+                // Services Content
+                const servicesGrid = document.getElementById('services-grid');
+                data.services.forEach(service => {
+                    const el = document.createElement('div');
+                    el.className = 'service-card';
+                    el.innerHTML = `
+                        <h3>${service.title}</h3>
+                        <p>${service.description}</p>
+                    `;
+                    servicesGrid.appendChild(el);
+                });
+
+                // Works Content
+                const worksGrid = document.getElementById('works-grid');
+                data.selected_works.forEach(work => {
+                    const el = document.createElement('div');
+                    el.className = 'work-card';
+                    el.innerHTML = `
+                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
+                        <p>${work.description}</p>
+                    `;
+                    worksGrid.appendChild(el);
+                });
+
+                // Philosophy Content
+                if (data.philosophy) {
+                    document.getElementById('philosophy-title').textContent = data.philosophy.title;
+                    document.getElementById('philosophy-text').textContent = data.philosophy.content;
+                }
+
+                // Proof Content
+                const proofContent = document.getElementById('proof-content');
+                if (data.social_proof && data.social_proof.length > 0) {
+                    const proof = data.social_proof[0]; // just highlight the first one for minimalism
+                    proofContent.innerHTML = `
+                        <blockquote>"${proof.quote}"</blockquote>
+                        <cite>&mdash; ${proof.source}</cite>
+                    `;
+                }
+
+                // Contact Content
+                const contactLinks = document.getElementById('contact-links');
+                data.connect_links.forEach(link => {
+                    const el = document.createElement('a');
+                    el.href = link.url;
+
+                    if (!link.url.startsWith('mailto')) {
+                        el.target = "_blank";
+                        el.rel = "noopener noreferrer";
+                        el.innerHTML = `${link.platform}<span class="external-icon">↗</span>`;
+                    } else {
+                        el.textContent = link.platform;
+                    }
+
+                    contactLinks.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>
+
+================ blog.html ================
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="index.html#services-section">Services</a>
+            <a href="index.html#works-section">Works</a>
+            <a href="blog.html" class="active">Blog</a>
+            <a href="index.html#contact-section">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Blog Listing Section -->
+        <section id="blog-section" class="fade-in">
+            <h2>Journal</h2>
+            <div id="posts-container" class="post-list">
+                <!-- Injected Posts -->
+                <p>Loading perspectives...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        // Data Fetching and Hydration
+        async function loadContent() {
+            try {
+                // Keep the brand hydration to match the main site
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Blog | ${data.personal_brand.name}`;
+                }
+
+                // Fetch posts list
+                const postsResponse = await fetch('posts/index.json');
+                if (!postsResponse.ok) throw new Error('Failed to load posts index');
+                const posts = await postsResponse.json();
+
+                const container = document.getElementById('posts-container');
+                container.innerHTML = '';
+
+                if (posts.length === 0) {
+                    container.innerHTML = '<p>No journal entries available yet.</p>';
+                    return;
+                }
+
+                // Sort newest first
+                posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                posts.forEach(post => {
+                    const postEl = document.createElement('div');
+                    postEl.className = 'post-item';
+
+                    const tagsHtml = post.tags && post.tags.length > 0
+                        ? `<div class="post-tags">${post.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`
+                        : '';
+
+                    postEl.innerHTML = `
+                        <div class="post-meta">
+                            <span>${post.date}</span>
+                            ${tagsHtml}
+                        </div>
+                        <h3 class="post-title">
+                            <a href="post.html?slug=${post.slug}">${post.title}</a>
+                        </h3>
+                    `;
+                    container.appendChild(postEl);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('posts-container').innerHTML = '<p>Failed to load perspectives.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>
+
+================ post.html ================
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post - Strategic AI Intelligence</title>
+    <!-- Marked.js lightweight parser for markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="index.html#services-section">Services</a>
+            <a href="index.html#works-section">Works</a>
+            <a href="blog.html" class="active">Blog</a>
+            <a href="index.html#contact-section">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container fade-in">
+        <a href="blog.html" class="back-link">← Back to Journal</a>
+
+        <article id="post-content">
+            <h1 id="post-title">Loading...</h1>
+            <div id="post-body"></div>
+        </article>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { loadBrandData, stripFrontmatter } from './js/app.js';
+
+        // Apply fade-in
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+            }, 100);
+        });
+
+        // Use marked safely
+        marked.setOptions({
+            headerIds: false,
+            mangle: false
+        });
+
+        async function loadPost() {
+            try {
+                // Fetch brand title config
+                await loadBrandData();
+
+                // Identify slug requirement
+                const params = new URLSearchParams(window.location.search);
+                const slug = params.get('slug');
+
+                if (!slug) {
+                    throw new Error('No post slug provided in URL');
+                }
+
+                // Verify metadata 
+                const indexRes = await fetch('posts/index.json');
+                if (!indexRes.ok) throw new Error('Failed to load posts index');
+                const posts = await indexRes.json();
+
+                const postMeta = posts.find(p => p.slug === slug);
+                if (!postMeta) {
+                    throw new Error('Post not found in index registry');
+                }
+
+                document.title = `${postMeta.title} | Journal`;
+
+                // Fetch actual markdown text file
+                const mdRes = await fetch(`posts/${slug}.md`);
+                if (!mdRes.ok) throw new Error('Failed to load markdown content');
+                const markdown = await mdRes.text();
+
+                // Strip standard frontmatter pattern
+                const mdContent = stripFrontmatter(markdown);
+
+                // Hydrate
+                const htmlContent = marked.parse(mdContent);
+                const tagsHtml = postMeta.tags && postMeta.tags.length > 0
+                    ? `<div class="post-tags">${postMeta.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`
+                    : '';
+
+                const container = document.getElementById('post-content');
+                container.innerHTML = `
+                    <header class="post-header">
+                        <h1>${postMeta.title}</h1>
+                        <div class="post-meta">
+                            <span>${postMeta.date}</span>
+                            ${tagsHtml}
+                        </div>
+                    </header>
+                    <div class="post-body-content">
+                        ${htmlContent}
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Failed to load post:', error);
+                document.getElementById('post-content').innerHTML = `
+                    <h1>Post Cannot be Found</h1>
+                    <p>The perspective you are looking for has been moved, removed, or the link is invalid.</p>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPost);
+    </script>
+</body>
+
+</html>
+
+================ content.json ================
+{
+    "personal_brand": {
+        "name": "Adriana So",
+        "tagline": "Systemic AI Integration & Design",
+        "bio": "I advise enterprise teams on agentic systems, AI adoption strategy, and the human-computer interfaces that drive them."
+    },
+    "services": [
+        {
+            "title": "AI Workflow Design",
+            "description": "Mapping complex organizational processes into deterministic, reliable LLM-driven sequences."
+        },
+        {
+            "title": "Agentic Systems",
+            "description": "Architecting autonomous, headless deployments that execute independently and scale effortlessly."
+        },
+        {
+            "title": "AI Adoption Strategy",
+            "description": "Providing executive-level roadmaps for embedding generative models into legacy data pipelines."
+        },
+        {
+            "title": "UX for AI",
+            "description": "Designing human-centered interfaces that make probabilistic outputs feel tangible and trustworthy."
+        }
+    ],
+    "selected_works": [
+        {
+            "title": "Autonomous Deployment Framework",
+            "description": "A zero-maintenance, structured JSON CMS driven entirely by GitHub Actions and deterministic AI orchestration.",
+            "link": "#"
+        },
+        {
+            "title": "Enterprise Knowledge Graph Integration",
+            "description": "Consolidated silos into an agent-accessible vector database, reducing engineering overhead by 40%.",
+            "link": "#"
+        }
+    ],
+    "philosophy": {
+        "title": "Structured Intelligence",
+        "content": "AI is most effective when constrained. My approach favors strict schemas, programmatic guardrails, and deterministic outcomes over unpredictable generative sprawl. Excellence lies in systems thinking, not prompt engineering alone."
+    },
+    "social_proof": [
+        {
+            "source": "VP of Engineering, Enterprise AI",
+            "quote": "Adriana's ability to navigate the operational complexities of agent deployments is unmatched. She brings clarity to a noisy domain."
+        }
+    ],
+    "connect_links": [
+        {
+            "platform": "hello@adrianaso.com",
+            "url": "mailto:hello@adrianaso.com"
+        },
+        {
+            "platform": "LinkedIn",
+            "url": "https://linkedin.com/in/adrianaso"
+        }
+    ]
+}
+
+================ package.json ================
+{
+  "name": "autonomous-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "ajv": "^8.18.0"
+  }
+}
+
+
+================ schema.json ================
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "personal_brand": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "tagline",
+        "bio"
+      ],
+      "additionalProperties": false
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "selected_works": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "link"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "philosophy": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    "social_proof": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "quote": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "quote"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "connect_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "platform",
+          "url"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "personal_brand",
+    "services",
+    "selected_works",
+    "philosophy",
+    "social_proof",
+    "connect_links"
+  ],
+  "additionalProperties": false
+}
+
+================ scripts/test.js ================
+const fs = require('fs');
+const path = require('path');
+const Ajv = require('ajv');
+
+const SCHEMA_PATH = path.join(__dirname, '../schema.json');
+const CONTENT_PATH = path.join(__dirname, '../content.json');
+
+const schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf8'));
+const currentContent = JSON.parse(fs.readFileSync(CONTENT_PATH, 'utf8'));
+
+function validateContent(contentObj) {
+    const ajv = new Ajv({ allErrors: true, strict: false });
+    const validate = ajv.compile(schema);
+    const valid = validate(contentObj);
+
+    if (!valid) {
+        return false;
+    }
+    return true;
+}
+
+function assertValid(testName, contentObj) {
+    if (validateContent(contentObj)) {
+        console.log(`✅ Passed: ${testName}`);
+    } else {
+        console.log(`❌ Failed: ${testName} (it should have passed)`);
+    }
+}
+
+function assertInvalid(testName, contentObj, reason) {
+    if (!validateContent(contentObj)) {
+        console.log(`✅ Passed: ${testName} (validation successfully rejected ${reason})`);
+    } else {
+        console.log(`❌ Failed: ${testName} (validation missed ${reason}!)`);
+    }
+}
+
+console.log("=== Running Verification Tests ===");
+
+// Test 1: Valid Content
+assertValid("Current content.json", currentContent);
+
+// Test 2: Invalid Content (Extra Key)
+const invalidContentExtra = { ...currentContent, rogue_key: "I should not exist" };
+assertInvalid("Content with extra rogue key", invalidContentExtra, "extra key");
+
+// Test 3: Invalid Content (Missing required section)
+const invalidContentMissing = { ...currentContent };
+delete invalidContentMissing.services;
+assertInvalid("Content with missing required section", invalidContentMissing, "missing key");
+
+console.log("\n=== Outputting index.html load test output ===");
+const htmlContent = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+if (htmlContent.includes('<section id="philosophy-section" class="fade-in">')) {
+    console.log("✅ index.html structure verified");
+} else {
+    console.log("❌ index.html structure failed");
+}
+
+
+================ scripts/update.js ================
+const fs = require('fs');
+const path = require('path');
+const Ajv = require('ajv');
+
+// Paths
+const CONTENT_PATH = path.join(__dirname, '../content.json');
+const SCHEMA_PATH = path.join(__dirname, '../schema.json');
+
+// Get arguments & credentials
+const instruction = process.argv[2];
+const apiKey = process.env.OPENAI_API_KEY;
+
+if (!instruction) {
+    console.error("❌ Error: No instruction provided.");
+    process.exit(1);
+}
+
+if (!apiKey) {
+    console.error("❌ Error: OPENAI_API_KEY environment variable is missing.");
+    process.exit(1);
+}
+
+// Load current files
+let currentContent;
+let schema;
+try {
+    currentContent = fs.readFileSync(CONTENT_PATH, 'utf8');
+    schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf8'));
+} catch (error) {
+    console.error(`❌ Error reading files: ${error.message}`);
+    process.exit(1);
+}
+
+// Core Functions
+function validateContent(contentObj) {
+    const ajv = new Ajv({ allErrors: true, strict: false });
+    const validate = ajv.compile(schema);
+    const valid = validate(contentObj);
+
+    if (!valid) {
+        console.error("❌ Schema Validation Failed:");
+        validate.errors.forEach(err => {
+            console.error(`  - ${err.instancePath} ${err.message}`);
+        });
+        return false;
+    }
+    return true;
+}
+
+function getPromptContent(instruction, content, schemaDef) {
+    return `
+You are an expert AI agent maintaining a strict JSON-based headless CMS for a portfolio site.
+
+Current content.json:
+${content}
+
+Schema required:
+${JSON.stringify(schemaDef, null, 2)}
+
+User Instruction: 
+"${instruction}"
+
+Update the JSON based on the User Instruction. 
+IMPORTANT RULES:
+1. Output ONLY valid JSON.
+2. Adhere STRICTLY to the schema.
+3. Keep the tone sharp, modern, and consultant-level. Focus on strategic intelligence and systems thinking.
+4. No extra keys, no missing required keys (including philosophy and selected_works).
+5. No text before or after the JSON.
+`;
+}
+
+async function fetchLLMUpdate(prompt, key) {
+    console.log("🤖 Requesting update from OpenAI...");
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${key}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            model: 'gpt-4o',
+            messages: [{ role: 'user', content: prompt }],
+            response_format: { type: 'json_object' },
+            temperature: 0.2
+        })
+    });
+
+    if (!response.ok) {
+        const errBody = await response.text();
+        throw new Error(`API Request Failed: ${response.status} ${response.statusText}\n${errBody}`);
+    }
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+}
+
+function parseAndValidate(rawOutput) {
+    console.log("📦 Parsing AI Output...");
+    let newContent;
+    try {
+        newContent = JSON.parse(rawOutput);
+    } catch (e) {
+        throw new Error(`Failed to parse AI output as JSON. Raw output:\n${rawOutput}`);
+    }
+
+    console.log("🔍 Validating Output against Schema...");
+    if (!validateContent(newContent)) {
+        throw new Error("Update rejected due to schema violations.");
+    }
+    return newContent;
+}
+
+function saveUpdatedContent(newContent) {
+    console.log("✅ Validation passed. Overwriting content.json...");
+    fs.writeFileSync(CONTENT_PATH, JSON.stringify(newContent, null, 2) + '\n');
+    console.log("✨ Update complete!");
+}
+
+// Main orchestration
+async function updatePortfolio() {
+    console.log(`🚀 Starting update with instruction: "${instruction}"`);
+    console.log("---------------------------------------------------");
+
+    try {
+        const prompt = getPromptContent(instruction, currentContent, schema);
+        const rawOutput = await fetchLLMUpdate(prompt, apiKey);
+        const newContent = parseAndValidate(rawOutput);
+        saveUpdatedContent(newContent);
+    } catch (error) {
+        console.error(`❌ Unexpected Error: ${error.message}`);
+        process.exit(1);
+    }
+}
+
+updatePortfolio();
+
+
+================ scripts/new-post.js ================
+const fs = require('fs');
+const path = require('path');
+const Ajv = require('ajv');
+
+// Core paths
+const POSTS_DIR = path.join(__dirname, '../posts');
+const INDEX_JSON_PATH = path.join(POSTS_DIR, 'index.json');
+const SCHEMA_PATH = path.join(__dirname, '../posts-schema.json');
+
+// Configuration
+const apiKey = process.env.OPENAI_API_KEY;
+const instruction = process.argv[2];
+
+// Fail Hard
+function abort(message) {
+    console.error(`\n❌ FATAL: ${message}`);
+    console.error("Aborting process. No files were modified.");
+    process.exit(1);
+}
+
+// 1. Initial Checks
+if (!instruction) abort("No instruction provided. Please provide a topic or draft.");
+if (!apiKey) abort("OPENAI_API_KEY environment variable is missing.");
+if (!fs.existsSync(POSTS_DIR)) fs.mkdirSync(POSTS_DIR, { recursive: true });
+
+// 2. Load dependencies safely
+let schema, indexData;
+try {
+    schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf8'));
+
+    if (fs.existsSync(INDEX_JSON_PATH)) {
+        indexData = JSON.parse(fs.readFileSync(INDEX_JSON_PATH, 'utf8'));
+        if (!Array.isArray(indexData)) throw new Error("index.json is not an array");
+    } else {
+        indexData = [];
+    }
+} catch (e) {
+    abort(`Dependency load failed: ${e.message}`);
+}
+
+// 3. Prompt Construction
+const promptDate = new Date().toISOString().split('T')[0]; // Current YYYY-MM-DD
+const prompt = `
+Generate a blog post based on the following instruction.
+Instruction: "${instruction}"
+
+You must output valid JSON perfectly matching this schema:
+${JSON.stringify(schema, null, 2)}
+
+Rules:
+1. "date" must be exactly "${promptDate}".
+2. "slug" MUST start with "${promptDate}-" followed by lowercase, kebab-case words mirroring the title.
+3. Keep the tone modern, strategic, and concise.
+4. "body" should be formatted in Markdown, but properly escaped for JSON.
+5. Do not include any text outside the JSON object.
+`;
+
+// 4. Execution Pipeline
+async function runPipeline() {
+    console.log(`🚀 Starting post generation pipeline...`);
+
+    // --- Phase 1: Generation ---
+    let rawOutput;
+    try {
+        console.log("🤖 Requesting generation from OpenAI...");
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o',
+                messages: [{ role: 'user', content: prompt }],
+                response_format: { type: 'json_object' },
+                temperature: 0.3
+            })
+        });
+
+        if (!response.ok) {
+            const errBody = await response.text();
+            abort(`API Request Failed: ${response.status} ${response.statusText}\n${errBody}`);
+        }
+
+        const data = await response.json();
+        rawOutput = data.choices[0].message.content;
+    } catch (e) {
+        abort(`LLM network failure: ${e.message}`);
+    }
+
+    // --- Phase 2: Parsing & Validation ---
+    console.log("📦 Validating LLM Output...");
+    let postData;
+    try {
+        postData = JSON.parse(rawOutput);
+    } catch (e) {
+        abort(`Failed to parse AI output as JSON. Raw output:\n${rawOutput}`);
+    }
+
+    const ajv = new Ajv({ allErrors: true, strict: false });
+    const validate = ajv.compile(schema);
+
+    if (!validate(postData)) {
+        console.error("Schema Violation Details:");
+        validate.errors.forEach(err => console.error(`  - ${err.instancePath} ${err.message}`));
+        abort("Output failed structural validation against posts-schema.json");
+    }
+
+    // --- Phase 3: Programmatic Constraints & Collision Integrity ---
+    const targetFilename = `${postData.slug}.md`;
+    const targetFilePath = path.join(POSTS_DIR, targetFilename);
+
+    console.log(`🔒 Applying strict programmatic checks to: "${postData.slug}"`);
+
+    // Strict Date/Slug verification
+    if (postData.date !== promptDate) {
+        abort(`Date mismatch: LLM generated "${postData.date}" but today is "${promptDate}"`);
+    }
+    if (!postData.slug.startsWith(promptDate + '-')) {
+        abort(`Slug structure violation: "${postData.slug}" does not start with "${promptDate}-"`);
+    }
+
+    if (indexData.some(p => p.slug === postData.slug)) {
+        abort(`Slug collision: "${postData.slug}" already exists in index.json`);
+    }
+    if (fs.existsSync(targetFilePath)) {
+        abort(`File collision: "${targetFilename}" already exists on disk`);
+    }
+
+    // --- Phase 4: Deterministic Markdown Formatting ---
+    console.log("🏗️ Formatting deterministic Markdown...");
+    const tagsArrayStr = JSON.stringify(postData.tags);
+
+    const markdownContent = `---
+title: ${postData.title}
+date: ${postData.date}
+slug: ${postData.slug}
+tags: ${tagsArrayStr}
+---
+
+${postData.body}
+`;
+
+    // --- Phase 5: Atomic Writes ---
+    console.log("💾 Executing atomic writes...");
+
+    // Temp paths
+    const tempMarkdownPath = targetFilePath + '.tmp';
+    const tempIndexPath = INDEX_JSON_PATH + '.tmp';
+
+    try {
+        // Prepare new index.json state
+        const newIndexEntry = {
+            title: postData.title,
+            date: postData.date,
+            slug: postData.slug,
+            tags: postData.tags
+        };
+        const newIndexData = [...indexData, newIndexEntry];
+
+        // Validate the entire new index structure before doing *any* I/O
+        const indexSchemaPath = path.join(__dirname, '../posts-index-schema.json');
+        const indexSchema = JSON.parse(fs.readFileSync(indexSchemaPath, 'utf8'));
+        const validateIndex = ajv.compile(indexSchema);
+
+        if (!validateIndex(newIndexData)) {
+            console.error("Index Schema Violation Details:");
+            validateIndex.errors.forEach(err => console.error(`  - ${err.instancePath} ${err.message}`));
+            abort("Generated index array failed structural validation against posts-index-schema.json");
+        }
+
+        // 1. Write the temporary files
+        fs.writeFileSync(tempMarkdownPath, markdownContent, 'utf8');
+        fs.writeFileSync(tempIndexPath, JSON.stringify(newIndexData, null, 2) + '\n', 'utf8');
+
+        // 2. Pivot to final paths atomically
+        fs.renameSync(tempMarkdownPath, targetFilePath);
+        fs.renameSync(tempIndexPath, INDEX_JSON_PATH);
+
+    } catch (e) {
+        // Cleanup block
+        if (fs.existsSync(tempMarkdownPath)) fs.unlinkSync(tempMarkdownPath);
+        if (fs.existsSync(tempIndexPath)) fs.unlinkSync(tempIndexPath);
+        abort(`CRITICAL IO FAILURE during write phase: ${e.message}. Temporary files purged.`);
+    }
+
+    console.log("✨ Post successfully generated and integrated safely.");
+}
+
+runPipeline();
+
+
+================ js/app.js ================
+// Shared Application Logic
+
+/**
+ * Sets up Intersection Observer for subtle fade-ins based on scroll position.
+ * Applies `.visible` class to elements with `.fade-in` class.
+ * @param {boolean} triggerHero - Overrides delay to trigger elements identified by hero/container immediately
+ */
+export const setupAnimations = (triggerHero = false) => {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    if (triggerHero) {
+        // Trigger immediately for hero to prevent popping
+        setTimeout(() => {
+            const heroSelector = document.querySelector('.hero');
+            if (heroSelector) heroSelector.classList.add('visible');
+            else {
+                // blog/post logic trigger
+                document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+            }
+        }, 100);
+    }
+};
+
+/**
+ * Fetches the brand information from content.json to ensure site consistency.
+ */
+export async function loadBrandData() {
+    try {
+        const response = await fetch('content.json');
+        if (!response.ok) throw new Error('Failed to load content for brand');
+        const data = await response.json();
+
+        const brandName = data.personal_brand?.name || "Adriana So";
+
+        const navBrandNameEl = document.getElementById('nav-brand-name');
+        if (navBrandNameEl) {
+            navBrandNameEl.textContent = brandName;
+        }
+
+        return data; // Return full data for pages that need more than just the brand
+    } catch (error) {
+        console.error('Data hydration failed:', error);
+        return null;
+    }
+}
+
+/**
+ * Strips frontmatter from markdown content
+ * @param {string} markdown - The raw markdown file text
+ * @returns {string} The markdown content without frontmatter
+ */
+export function stripFrontmatter(markdown) {
+    let mdContent = markdown;
+    if (mdContent.startsWith('---')) {
+        const parts = mdContent.split('---');
+        if (parts.length >= 3) {
+            mdContent = parts.slice(2).join('---').trim();
+        }
+    }
+    return mdContent;
+}
+
+
+================ css/shared.css ================
+/* Typography: High-contrast Serif + clean Sans */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap');
+
+:root {
+    --bg-color: #FDFBF7; /* Warm paper off-white */
+    --text-primary: #1A1A1A; /* Soft black */
+    --text-secondary: #5C5A55; /* Muted stone */
+    --accent-color: #1A1A1A; /* Soft black, removing blue */
+    --border-color: #D5D0C4; /* Subdued stone/taupe */
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lora', serif;
+    --font-meta: 'Inter', sans-serif;
+
+    --spacing-unit: 8px;
+    --section-spacing: 140px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 900px;
+    /* Constrained width for optimal reading and white space */
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+/* Semantic Layout & Rhythm */
+section {
+    padding: calc(var(--section-spacing) / 2) 0;
+}
+
+.hero {
+    padding: var(--section-spacing) 0;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+}
+
+/* Base h1 for pages */
+h1 {
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    max-width: 16ch;
+}
+
+h2 {
+    font-family: var(--font-meta);
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: calc(var(--spacing-unit) * 6);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 60px;
+    background-color: var(--border-color);
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-bottom: calc(var(--spacing-unit) * 2);
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.hero-tagline {
+    font-size: 1.75rem;
+    color: var(--text-primary);
+    font-style: italic;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+.hero-bio {
+    font-size: 1.25rem;
+    max-width: 55ch;
+}
+
+/* Element styling */
+.grid-2col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc(var(--spacing-unit) * 8);
+}
+
+@media (min-width: 768px) {
+    .grid-2col {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.service-card, .work-card {
+    border-top: 1px solid var(--border-color);
+    padding-top: calc(var(--spacing-unit) * 3);
+}
+
+.work-card a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.work-card a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-color);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.work-card a:hover {
+    color: var(--accent-color);
+}
+
+.work-card a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.philosophy-content {
+    border-left: 2px solid var(--accent-color);
+    padding-left: calc(var(--spacing-unit) * 4);
+}
+
+.philosophy-content p {
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    max-width: 40ch;
+}
+
+blockquote {
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--text-primary);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    letter-spacing: -0.01em;
+}
+
+cite {
+    font-style: normal;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 2);
+}
+
+.contact-links a {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-block;
+    width: fit-content;
+}
+
+.contact-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Minimal Subtle Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+footer {
+    padding: calc(var(--section-spacing) / 2) 0;
+    border-top: 1px solid var(--border-color);
+    margin-top: var(--section-spacing);
+    text-align: left;
+    font-family: var(--font-meta);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Navigation (Editorial Masthead) */
+nav {
+    padding: calc(var(--spacing-unit) * 4) 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: calc(var(--section-spacing) / 1.5);
+    position: sticky;
+    top: 0;
+    background: rgba(253, 251, 247, 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1000;
+}
+
+.nav-brand {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 2.25rem;
+    color: var(--text-primary);
+    text-decoration: none !important;
+    letter-spacing: -0.02em;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    margin-top: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: calc(var(--spacing-unit) * 6);
+}
+
+.nav-links a {
+    font-family: var(--font-meta);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--text-primary);
+}
+
+.btn {
+    display: inline-block;
+    font-family: var(--font-meta);
+    color: var(--bg-color);
+    background-color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: calc(var(--spacing-unit) * 4);
+    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
+    border: 1px solid var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: transparent;
+    color: var(--text-primary);
+}
+
+.external-icon {
+    font-family: var(--font-meta);
+    font-size: 0.8em;
+    margin-left: 6px;
+    opacity: 0.8;
+}
+
+/* Essential Blog Styles */
+.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 6);
+}
+
+.post-item {
+    border-top: 1px solid var(--border-color);
+    padding-top: calc(var(--spacing-unit) * 3);
+}
+
+.post-meta {
+    font-family: var(--font-meta);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: calc(var(--spacing-unit));
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.post-title {
+    font-size: 1.75rem;
+    margin-bottom: calc(var(--spacing-unit));
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.post-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.post-title a::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-color);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.post-title a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.post-tags {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    gap: 8px;
+}
+
+.tag {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
+/* Post view specifics */
+article {
+    padding: calc(var(--section-spacing) / 3) 0;
+    min-height: 60vh;
+}
+
+.post-body-content h1, 
+.post-body-content h2, 
+.post-body-content h3, 
+.post-body-content h4, 
+.post-body-content h5, 
+.post-body-content h6 {
+    color: var(--text-primary);
+    margin-top: calc(var(--spacing-unit) * 6);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    line-height: 1.3;
+}
+
+.post-body-content h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-top: 0;
+    margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.post-body-content h2 { font-size: 2.25rem; font-family: var(--font-heading); text-transform: none; letter-spacing: normal; }
+.post-body-content h2::after { display: none; }
+.post-body-content h3 { font-size: 1.75rem; }
+
+.post-body-content p, 
+.post-body-content ul, 
+.post-body-content ol {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    max-width: 65ch;
+}
+
+.post-body-content li {
+    margin-bottom: calc(var(--spacing-unit));
+    max-width: 65ch;
+}
+
+.post-body-content ul, 
+.post-body-content ol {
+    padding-left: calc(var(--spacing-unit) * 4);
+}
+
+.post-body-content a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--border-color);
+    text-underline-offset: 4px;
+    transition: all 0.3s ease;
+}
+
+.post-body-content a:hover {
+    text-decoration-color: var(--text-primary);
+    color: var(--accent-color);
+}
+
+.post-body-content blockquote {
+    border-left: 2px solid var(--accent-color);
+    padding-left: calc(var(--spacing-unit) * 4);
+    margin: calc(var(--spacing-unit) * 5) 0;
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--text-primary);
+    max-width: 50ch;
+    line-height: 1.5;
+}
+
+.post-body-content code {
+    font-family: monospace;
+    background: #F0EDE5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--text-primary);
+}
+
+.post-body-content pre {
+    background: #F0EDE5;
+    padding: 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    max-width: 800px;
+}
+
+.post-body-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.95rem;
+}
+
+.post-body-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: calc(var(--spacing-unit) * 4) 0;
+}
+
+.post-body-content hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: calc(var(--spacing-unit) * 6) 0;
+}
+
+.back-link {
+    font-family: var(--font-meta);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none !important;
+    color: var(--text-secondary);
+    display: inline-block;
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: var(--text-primary);
+}
+
+.post-header {
+    margin-bottom: calc(var(--spacing-unit) * 6);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: calc(var(--spacing-unit) * 4);
+}
+
+
+================ posts/index.json ================
+[
+    {
+        "title": "Example Post",
+        "date": "2026-02-25",
+        "slug": "2026-02-25-example-post",
+        "tags": [
+            "AI"
+        ]
+    }
+]
+
+================ posts/2026-02-25-example-post.md ================
+---
+title: Example Post
+date: 2026-02-25
+slug: 2026-02-25-example-post
+tags: ["AI"]
+---
+
+# Example Post
+
+This is an example blog post.
+
+It is rendered using `marked.js` to ensure clean parsing of the markdown content while adhering to the site's strict, declarative formatting. The blog system strictly reads from the `/posts/` directory and doesn't interfere with the structured JSON schema that drives the rest of the site's layout.
+
+
+================ posts-schema.json ================
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "date": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "description": "YYYY-MM-DD format strictly required"
+        },
+        "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "description": "Lowercase, kebab-case strictly required"
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "summary": {
+            "type": "string"
+        },
+        "body": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "title",
+        "date",
+        "slug",
+        "tags",
+        "summary",
+        "body"
+    ],
+    "additionalProperties": false
+}
+
+================ posts-index-schema.json ================
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "title": {
+                "type": "string"
+            },
+            "date": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            "slug": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            "tags": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        },
+        "required": [
+            "title",
+            "date",
+            "slug",
+            "tags"
+        ],
+        "additionalProperties": false
+    }
+}
+

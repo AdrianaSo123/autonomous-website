@@ -1,0 +1,57 @@
+{
+    "personal_brand": {
+        "name": "Adriana So",
+        "tagline": "Systemic AI Integration & Design",
+        "bio": "I advise enterprise teams on agentic systems, AI adoption strategy, and the human-computer interfaces that drive them."
+    },
+    "services": [
+        {
+            "title": "AI Workflow Design",
+            "description": "Mapping complex organizational processes into deterministic, reliable LLM-driven sequences."
+        },
+        {
+            "title": "Agentic Systems",
+            "description": "Architecting autonomous, headless deployments that execute independently and scale effortlessly."
+        },
+        {
+            "title": "AI Adoption Strategy",
+            "description": "Providing executive-level roadmaps for embedding generative models into legacy data pipelines."
+        },
+        {
+            "title": "UX for AI",
+            "description": "Designing human-centered interfaces that make probabilistic outputs feel tangible and trustworthy."
+        }
+    ],
+    "selected_works": [
+        {
+            "title": "Autonomous Deployment Framework",
+            "description": "A zero-maintenance, structured JSON CMS driven entirely by GitHub Actions and deterministic AI orchestration.",
+            "link": "#"
+        },
+        {
+            "title": "Enterprise Knowledge Graph Integration",
+            "description": "Consolidated silos into an agent-accessible vector database, reducing engineering overhead by 40%.",
+            "link": "#"
+        }
+    ],
+    "philosophy": {
+        "title": "Structured Intelligence",
+        "content": "AI is most effective when constrained. My approach favors strict schemas, programmatic guardrails, and deterministic outcomes over unpredictable generative sprawl. Excellence lies in systems thinking, not prompt engineering alone."
+    },
+    "social_proof": [
+        {
+            "source": "VP of Engineering, Enterprise AI",
+            "quote": "Adriana's ability to navigate the operational complexities of agent deployments is unmatched. She brings clarity to a noisy domain."
+        }
+    ],
+    "connect_links": [
+        {
+            "platform": "hello@adrianaso.com",
+            "url": "mailto:hello@adrianaso.com"
+        },
+        {
+            "platform": "LinkedIn",
+            "url": "https://linkedin.com/in/adrianaso"
+        }
+    ]
+}

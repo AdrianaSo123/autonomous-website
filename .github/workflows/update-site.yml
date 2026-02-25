@@ -1,0 +1,45 @@
+name: Update Portfolio Site
+
+on:
+  workflow_dispatch:
+    inputs:
+      instruction:
+        description: 'Instruction for the AI (e.g., "Add a new AI workflow consulting service")'
+        required: true
+        type: string
+
+jobs:
+  update-site:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to commit and push changes
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run AI Update & Validation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/update.js "${{ github.event.inputs.instruction }}"
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add content.json
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes in content.json, skipping commit."
+          else
+            git commit -m "🤖 Auto-update portfolio: ${{ github.event.inputs.instruction }}"
+            git push
+          fi

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post - Strategic AI Intelligence</title>
+    <!-- Marked.js lightweight parser for markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="index.html#services-section">Services</a>
+            <a href="index.html#works-section">Works</a>
+            <a href="blog.html" class="active">Blog</a>
+            <a href="index.html#contact-section">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container fade-in">
+        <a href="blog.html" class="back-link">← Back to Journal</a>
+
+        <article id="post-content">
+            <h1 id="post-title">Loading...</h1>
+            <div id="post-body"></div>
+        </article>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { loadBrandData, stripFrontmatter } from './js/app.js';
+
+        // Apply fade-in
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+            }, 100);
+        });
+
+        // Use marked safely
+        marked.setOptions({
+            headerIds: false,
+            mangle: false
+        });
+
+        async function loadPost() {
+            try {
+                // Fetch brand title config
+                await loadBrandData();
+
+                // Identify slug requirement
+                const params = new URLSearchParams(window.location.search);
+                const slug = params.get('slug');
+
+                if (!slug) {
+                    throw new Error('No post slug provided in URL');
+                }
+
+                // Verify metadata 
+                const indexRes = await fetch('posts/index.json');
+                if (!indexRes.ok) throw new Error('Failed to load posts index');
+                const posts = await indexRes.json();
+
+                const postMeta = posts.find(p => p.slug === slug);
+                if (!postMeta) {
+                    throw new Error('Post not found in index registry');
+                }
+
+                document.title = `${postMeta.title} | Journal`;
+
+                // Fetch actual markdown text file
+                const mdRes = await fetch(`posts/${slug}.md`);
+                if (!mdRes.ok) throw new Error('Failed to load markdown content');
+                const markdown = await mdRes.text();
+
+                // Strip standard frontmatter pattern
+                const mdContent = stripFrontmatter(markdown);
+
+                // Hydrate
+                const htmlContent = marked.parse(mdContent);
+                const tagsHtml = postMeta.tags && postMeta.tags.length > 0
+                    ? `<div class="post-tags">${postMeta.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`
+                    : '';
+
+                const container = document.getElementById('post-content');
+                container.innerHTML = `
+                    <header class="post-header">
+                        <h1>${postMeta.title}</h1>
+                        <div class="post-meta">
+                            <span>${postMeta.date}</span>
+                            ${tagsHtml}
+                        </div>
+                    </header>
+                    <div class="post-body-content">
+                        ${htmlContent}
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Failed to load post:', error);
+                document.getElementById('post-content').innerHTML = `
+                    <h1>Post Cannot be Found</h1>
+                    <p>The perspective you are looking for has been moved, removed, or the link is invalid.</p>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPost);
+    </script>
+</body>
+
+</html>

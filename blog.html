@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="index.html#services-section">Services</a>
+            <a href="index.html#works-section">Works</a>
+            <a href="blog.html" class="active">Blog</a>
+            <a href="index.html#contact-section">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Blog Listing Section -->
+        <section id="blog-section" class="fade-in">
+            <h2>Journal</h2>
+            <div id="posts-container" class="post-list">
+                <!-- Injected Posts -->
+                <p>Loading perspectives...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        // Data Fetching and Hydration
+        async function loadContent() {
+            try {
+                // Keep the brand hydration to match the main site
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Blog | ${data.personal_brand.name}`;
+                }
+
+                // Fetch posts list
+                const postsResponse = await fetch('posts/index.json');
+                if (!postsResponse.ok) throw new Error('Failed to load posts index');
+                const posts = await postsResponse.json();
+
+                const container = document.getElementById('posts-container');
+                container.innerHTML = '';
+
+                if (posts.length === 0) {
+                    container.innerHTML = '<p>No journal entries available yet.</p>';
+                    return;
+                }
+
+                // Sort newest first
+                posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                posts.forEach(post => {
+                    const postEl = document.createElement('div');
+                    postEl.className = 'post-item';
+
+                    const tagsHtml = post.tags && post.tags.length > 0
+                        ? `<div class="post-tags">${post.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`
+                        : '';
+
+                    postEl.innerHTML = `
+                        <div class="post-meta">
+                            <span>${post.date}</span>
+                            ${tagsHtml}
+                        </div>
+                        <h3 class="post-title">
+                            <a href="post.html?slug=${post.slug}">${post.title}</a>
+                        </h3>
+                    `;
+                    container.appendChild(postEl);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('posts-container').innerHTML = '<p>Failed to load perspectives.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="#" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="#services-section">Services</a>
+            <a href="#works-section">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="#contact-section">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <main class="hero fade-in">
+            <h1 id="brand-tagline" class="hero-tagline" style="font-size: clamp(3.5rem, 8vw, 6rem); max-width: 14ch;">
+                Loading...</h1>
+            <p id="brand-bio" class="hero-bio"></p>
+            <a href="#contact-section" class="btn">Let's Talk</a>
+        </main>
+
+        <!-- Services Section -->
+        <section id="services-section" class="fade-in">
+            <h2>What I Do</h2>
+            <div id="services-grid" class="grid-2col">
+                <!-- Injected Services -->
+            </div>
+        </section>
+
+        <!-- Selected Works / Systems Section -->
+        <section id="works-section" class="fade-in">
+            <h2>Selected Works \ Systems</h2>
+            <div id="works-grid" class="grid-2col">
+                <!-- Injected Works -->
+            </div>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section id="philosophy-section" class="fade-in">
+            <h2>Philosophy</h2>
+            <div class="philosophy-content">
+                <h3 id="philosophy-title"></h3>
+                <p id="philosophy-text"></p>
+            </div>
+        </section>
+
+        <!-- Proof Section -->
+        <section id="proof-section" class="fade-in">
+            <h2>Perspective</h2>
+            <div id="proof-content">
+                <!-- Injected Quote -->
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" class="fade-in">
+            <h2>Contact</h2>
+            <div id="contact-links" class="contact-links">
+                <!-- Injected Links -->
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations } from './js/app.js';
+
+        // Data Fetching and Hydration
+        async function loadContent() {
+            try {
+                const response = await fetch('content.json');
+                if (!response.ok) throw new Error('Failed to load content');
+                const data = await response.json();
+
+                // document title & Nav
+                document.title = `${data.personal_brand.name} | ${data.personal_brand.tagline}`;
+                document.getElementById('nav-brand-name').textContent = data.personal_brand.name;
+
+                // Hero Content
+                // document.getElementById('brand-name').textContent = data.personal_brand.name; // Redundant, removed per UX Audit
+                document.getElementById('brand-tagline').textContent = data.personal_brand.tagline;
+                document.getElementById('brand-bio').textContent = data.personal_brand.bio;
+
+                // Services Content
+                const servicesGrid = document.getElementById('services-grid');
+                data.services.forEach(service => {
+                    const el = document.createElement('div');
+                    el.className = 'service-card';
+                    el.innerHTML = `
+                        <h3>${service.title}</h3>
+                        <p>${service.description}</p>
+                    `;
+                    servicesGrid.appendChild(el);
+                });
+
+                // Works Content
+                const worksGrid = document.getElementById('works-grid');
+                data.selected_works.forEach(work => {
+                    const el = document.createElement('div');
+                    el.className = 'work-card';
+                    el.innerHTML = `
+                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
+                        <p>${work.description}</p>
+                    `;
+                    worksGrid.appendChild(el);
+                });
+
+                // Philosophy Content
+                if (data.philosophy) {
+                    document.getElementById('philosophy-title').textContent = data.philosophy.title;
+                    document.getElementById('philosophy-text').textContent = data.philosophy.content;
+                }
+
+                // Proof Content
+                const proofContent = document.getElementById('proof-content');
+                if (data.social_proof && data.social_proof.length > 0) {
+                    const proof = data.social_proof[0]; // just highlight the first one for minimalism
+                    proofContent.innerHTML = `
+                        <blockquote>"${proof.quote}"</blockquote>
+                        <cite>&mdash; ${proof.source}</cite>
+                    `;
+                }
+
+                // Contact Content
+                const contactLinks = document.getElementById('contact-links');
+                data.connect_links.forEach(link => {
+                    const el = document.createElement('a');
+                    el.href = link.url;
+
+                    if (!link.url.startsWith('mailto')) {
+                        el.target = "_blank";
+                        el.rel = "noopener noreferrer";
+                        el.innerHTML = `${link.platform}<span class="external-icon">↗</span>`;
+                    } else {
+                        el.textContent = link.platform;
+                    }
+
+                    contactLinks.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>
