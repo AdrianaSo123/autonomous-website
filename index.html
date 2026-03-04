@@ -17,57 +17,39 @@
                 <a href="services.html">Services</a>
                 <a href="works.html">Works</a>
                 <a href="blog.html">Blog</a>
-                <a href="contact.html">Contact</a>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <main class="hero fade-in">
+    <div class="container container-narrow">
+
+        <!-- Narrative Profile Section -->
+        <main class="hero fade-in narrative-hero">
             <h1 id="brand-tagline" class="fade-in" data-delay="1">Loading...</h1>
-            <p id="brand-bio" class="fade-in" data-delay="2"></p>
-            <div class="hero-cta fade-in" data-delay="3">
-                <a href="contact.html" class="btn">Let's Talk</a>
-                <a href="services.html" class="btn-secondary">Explore Capabilities</a>
+
+            <div class="narrative-bio fade-in" data-delay="2">
+                <p id="brand-bio"></p>
+                <p id="philosophy-text"></p>
+
+                <div class="inline-contact">
+                    Find me elsewhere:
+                    <a href="mailto:hello@adrianaso.com">Email</a> &middot;
+                    <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                </div>
             </div>
         </main>
 
-        <!-- Services Preview Section -->
-        <section id="services-preview" class="fade-in">
-            <h2>Expertise</h2>
-            <div id="services-grid" class="grid-2col">
-                <!-- Injected Services (Limited) -->
+        <!-- Recent Perspectives feed -->
+        <section id="recent-posts-section" class="fade-in">
+            <h2>Recent Perspectives</h2>
+
+            <div id="recent-posts-container" class="compact-post-list">
+                <!-- Injected Posts -->
+                <p>Loading journal...</p>
             </div>
+
             <div class="section-footer">
-                <a href="services.html" class="view-all">All Capabilities →</a>
-            </div>
-        </section>
-
-        <!-- Selected Works / Systems Section -->
-        <section id="works-preview" class="fade-in">
-            <h2>Systems</h2>
-            <div id="works-grid" class="grid-2col">
-                <!-- Injected Works (Limited) -->
-            </div>
-            <div class="section-footer">
-                <a href="works.html" class="view-all">Full Portfolio →</a>
-            </div>
-        </section>
-
-        <!-- Philosophy Section -->
-        <section id="philosophy-section" class="fade-in">
-            <div class="philosophy-panel">
-                <h2>Philosophy</h2>
-                <p id="philosophy-text">Loading principle...</p>
-            </div>
-        </section>
-
-        <!-- Proof Section -->
-        <section id="proof-section" class="fade-in">
-            <h2>Perspective</h2>
-            <div id="proof-content">
-                <!-- Injected Quote -->
+                <a href="blog.html" class="view-all">View All Perspectives →</a>
             </div>
         </section>
 
@@ -81,56 +63,48 @@
 
         async function loadContent() {
             try {
+                // 1. Load Bio and Philosophy Data
                 const data = await loadBrandData();
                 if (!data) throw new Error('Failed to load content');
 
-                // document title & Nav
                 document.title = `${data.personal_brand.name} | ${data.personal_brand.tagline}`;
                 document.getElementById('nav-brand-name').textContent = data.personal_brand.name;
-
-                // Hero Content
                 document.getElementById('brand-tagline').textContent = data.personal_brand.tagline;
                 document.getElementById('brand-bio').textContent = data.personal_brand.bio;
 
-                // Services Content (Limit to 2 for preview)
-                const servicesGrid = document.getElementById('services-grid');
-                data.services.slice(0, 2).forEach(service => {
-                    const el = document.createElement('div');
-                    el.className = 'service-card';
-                    el.innerHTML = `
-                        <div>
-                            <h3>${service.title}</h3>
-                            <p>${service.description}</p>
-                        </div>
-                    `;
-                    servicesGrid.appendChild(el);
-                });
-
-                // Works Content (Limit to 2 for preview)
-                const worksGrid = document.getElementById('works-grid');
-                data.selected_works.slice(0, 2).forEach(work => {
-                    const el = document.createElement('div');
-                    el.className = 'work-card';
-                    el.innerHTML = `
-                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
-                        <p>${work.description}</p>
-                    `;
-                    worksGrid.appendChild(el);
-                });
-
-                // Philosophy Content
                 if (data.philosophy) {
                     document.getElementById('philosophy-text').textContent = data.philosophy.content;
                 }
 
-                // Proof Content
-                const proofContent = document.getElementById('proof-content');
-                if (data.social_proof && data.social_proof.length > 0) {
-                    const proof = data.social_proof[0];
-                    proofContent.innerHTML = `
-                        <blockquote>"${proof.quote}"</blockquote>
-                        <cite>&mdash; ${proof.source}</cite>
-                    `;
+                // 2. Fetch Latest 3 Blog Posts
+                const postsResponse = await fetch('posts/index.json');
+                const container = document.getElementById('recent-posts-container');
+
+                if (postsResponse.ok) {
+                    const posts = await postsResponse.json();
+                    container.innerHTML = '';
+
+                    if (posts.length > 0) {
+                        // Sort newest first, take top 3
+                        const recentPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
+
+                        recentPosts.forEach(post => {
+                            const postEl = document.createElement('div');
+                            postEl.className = 'compact-post-item';
+                            postEl.innerHTML = `
+                                <div class="compact-post-meta">${post.date}</div>
+                                <div class="compact-post-content">
+                                    <h3><a href="post.html?slug=${post.slug}">${post.title}</a></h3>
+                                    ${post.summary ? `<p class="post-summary">${post.summary}</p>` : ''}
+                                </div>
+                            `;
+                            container.appendChild(postEl);
+                        });
+                    } else {
+                        container.innerHTML = '<p class="empty-state">No journal entries available yet.</p>';
+                    }
+                } else {
+                    container.innerHTML = '<p class="empty-state">Journal temporarily unavailable.</p>';
                 }
 
                 setupAnimations(true);
