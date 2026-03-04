@@ -61,17 +61,9 @@
 
         function stripFrontmatter(markdown) {
 
-            if (!markdown.startsWith('---')) {
-                return markdown;
-            }
+            const frontmatterRegex = /^---[\s\S]*?---\n?/;
 
-            const parts = markdown.split('---');
-
-            if (parts.length >= 3) {
-                return parts.slice(2).join('---').trim();
-            }
-
-            return markdown;
+            return markdown.replace(frontmatterRegex, '').trim();
         }
 
         async function loadPost() {
