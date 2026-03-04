@@ -173,6 +173,9 @@ app.post('/upload', upload.single('audio'), async (req, res) => {
         console.log('Transcription completed. Generating blog post...');
 
         // 2. Format the text into a blog post using GPT
+        // Generate the date deterministically
+        const todayDate = new Date().toISOString().split('T')[0];
+
         const prompt = `
 You are an expert technical blog writer and content formatter.
 I have a raw audio transcript from a mobile recording about a technical topic or blog post idea.
@@ -181,8 +184,6 @@ The blog post must strictly follow this exact markdown format, including the fro
 
 ---
 title: The Perfect Post Title
-date: YYYY-MM-DD
-slug: the-perfect-post-title
 tags: ["tag1","tag2"]
 ---------------------
 
@@ -190,8 +191,7 @@ Markdown body text here. Make it readable, use headers if appropriate, and maint
 
 Constraints:
 - Respond *only* with the raw markdown string. Do not wrap it in markdown block ticks like \`\`\`markdown.
-- The date should be today's date in YYYY-MM-DD format. Today's date is: ${new Date().toISOString().split('T')[0]}.
-- The slug must be completely lowercase, replacing spaces with hyphens, and contain only alphanumeric characters and hyphens.
+- Do NOT generate \`date\` or \`slug\` inside the frontmatter. I will handle those automatically.
 
 Raw Transcript:
 "${transcriptText}"
@@ -206,11 +206,11 @@ Raw Transcript:
             temperature: 0.7,
         });
 
-        const generatedContent = chatCompletion.choices[0].message.content.trim();
+        const generatedContentRaw = chatCompletion.choices[0].message.content.trim();
 
         // 3. Extract Metadata from the generated markdown
         // Use regex to locate the frontmatter section.
-        const frontmatterMatch = generatedContent.match(/^---\n([\s\S]*?)\n---------------------/m);
+        const frontmatterMatch = generatedContentRaw.match(/^---\n([\s\S]*?)\n---------------------/m);
 
         if (!frontmatterMatch) {
             throw new Error("Generated content did not match expected frontmatter format.");
@@ -239,11 +239,43 @@ Raw Transcript:
             }
         }
 
-        if (!metadata.title || !metadata.slug || !metadata.date || !metadata.tags) {
-            throw new Error('Missing required metadata in the generated markdown frontmatter.');
+        if (!metadata.title || !metadata.tags) {
+            throw new Error('Missing required title or tags in the generated markdown frontmatter.');
         }
 
-        console.log(`Blog post generated with slug: ${metadata.slug}`);
+        // Apply deterministic date and slug
+        metadata.date = todayDate;
+
+        function generateSlug(title, date) {
+            return (
+                date +
+                '-' +
+                title
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, '-')
+            );
+        }
+
+        metadata.slug = generateSlug(metadata.title, metadata.date);
+
+        console.log(`Blog post generated deterministically with slug: ${metadata.slug}`);
+
+        // Reconstruct the markdown frontmatter so the actual file holds the correct date and slug
+        const newFrontmatter = `---
+title: ${metadata.title}
+date: ${metadata.date}
+slug: ${metadata.slug}
+tags: ${JSON.stringify(metadata.tags)}
+---------------------`;
+
+        const endIdx = generatedContentRaw.indexOf('---------------------');
+        if (endIdx === -1) {
+            throw new Error("Could not reliably reconstruct markdown. Check generated output format.");
+        }
+
+        const contentBody = generatedContentRaw.substring(endIdx + '---------------------'.length);
+        const generatedContent = newFrontmatter + contentBody;
 
         // 4. Update the local file system (so that the server is in sync, though we will push to github via api)
         const newMarkdownPath = path.join(POSTS_DIR, `${metadata.slug}.md`);
