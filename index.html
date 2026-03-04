@@ -24,17 +24,22 @@
     <div class="container container-narrow">
 
         <!-- Narrative Profile Section -->
-        <main class="hero fade-in narrative-hero">
-            <h1 id="brand-tagline" class="fade-in" data-delay="1">Loading...</h1>
+        <main class="hero-split narrative-hero">
+            <div class="hero-visual-anchor fade-in" data-delay="1"></div>
 
             <div class="narrative-bio fade-in" data-delay="2">
+                <h1>
+                    Systemic<br> AI.<br> <span class="h1-accent">Design.</span>
+                </h1>
                 <p id="brand-bio"></p>
                 <p id="philosophy-text"></p>
 
-                <div class="inline-contact">
-                    Find me elsewhere:
-                    <a href="mailto:hello@adrianaso.com">Email</a> &middot;
-                    <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <div class="inline-contact" style="margin-top: 24px; display: flex; gap: 12px; align-items: center;">
+                    <span style="font-family: var(--font-meta); font-size: 0.85rem; color: var(--text-secondary);">Find
+                        me elsewhere:</span>
+                    <a href="mailto:hello@adrianaso.com" class="pill-link">Email</a>
+                    <a href="https://linkedin.com/in/adrianaso" class="pill-link" target="_blank"
+                        rel="noopener noreferrer">LinkedIn</a>
                 </div>
             </div>
         </main>
@@ -49,7 +54,7 @@
             </div>
 
             <div class="section-footer">
-                <a href="blog.html" class="view-all">View All Perspectives →</a>
+                <a href="blog.html" class="pill-link" style="margin-top: 20px;">View All Perspectives →</a>
             </div>
         </section>
 
@@ -89,14 +94,17 @@
                         const recentPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
 
                         recentPosts.forEach(post => {
-                            const postEl = document.createElement('div');
+                            const postEl = document.createElement('a');
+                            postEl.href = `post.html?slug=${post.slug}`;
                             postEl.className = 'compact-post-item';
                             postEl.innerHTML = `
-                                <div class="compact-post-meta">${post.date}</div>
-                                <div class="compact-post-content">
-                                    <h3><a href="post.html?slug=${post.slug}">${post.title}</a></h3>
-                                    ${post.summary ? `<p class="post-summary">${post.summary}</p>` : ''}
+                                <div class="compact-post-header">
+                                    <div class="compact-post-content">
+                                        <h3>${post.title}</h3>
+                                    </div>
+                                    <div class="compact-post-meta">${post.date}</div>
                                 </div>
+                                ${post.summary ? `<p class="post-summary">${post.summary}</p>` : ''}
                             `;
                             container.appendChild(postEl);
                         });

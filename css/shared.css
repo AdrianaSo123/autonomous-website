@@ -58,17 +58,45 @@ section {
     padding: var(--section-spacing) 0;
 }
 
+/* Hero Grid & Split Design */
 .hero {
     padding: var(--section-spacing) 0;
     min-height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: var(--content-max);
+}
+
+.hero-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc(var(--spacing-unit) * 8);
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .hero-split {
+        grid-template-columns: 1fr 1.2fr;
+    }
+}
+
+/* Geometric Obsidian Orb (Anchor) */
+.hero-visual-anchor {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, var(--obsidian) 0%, #2A2A2A 100%);
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.5), inset 20px 20px 40px rgba(255, 255, 255, 0.05);
 }
 
 .narrative-hero {
-    min-height: 60vh;
+    min-height: auto;
+    /* Let the grid dictate height */
+    padding-top: calc(var(--section-spacing) / 1.5);
 }
 
 .narrative-bio {
@@ -110,10 +138,18 @@ h4 {
     line-height: 1.1;
 }
 
+/* Hero Typographic Lockup */
 h1 {
-    font-size: clamp(3.2rem, 10vw, 5.8rem);
-    letter-spacing: -0.03em;
-    margin-bottom: calc(var(--spacing-unit) * 5);
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    letter-spacing: -0.04em;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    line-height: 0.95;
+    text-transform: uppercase;
+}
+
+.h1-accent {
+    color: var(--text-secondary);
+    display: block;
 }
 
 h2 {
@@ -386,69 +422,84 @@ footer {
     padding-left: 10px;
 }
 
-/* Compact Narrative Post List */
+/* Compact Narrative Post List (Card Blocks) */
 .compact-post-list {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--spacing-unit) * 4);
-    border-top: 1px solid var(--border-color);
-    padding-top: calc(var(--spacing-unit) * 4);
+    gap: calc(var(--spacing-unit) * 3);
+    margin-top: calc(var(--spacing-unit) * 4);
 }
 
 .compact-post-item {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: calc(var(--spacing-unit) * 4);
-    padding-bottom: calc(var(--spacing-unit) * 4);
-    border-bottom: 1px solid var(--border-color);
+    border: 1px solid var(--border-color);
+    padding: calc(var(--spacing-unit) * 4);
+    border-radius: 12px;
+    transition: var(--transition-smooth);
+    background: var(--bg-color);
+    text-decoration: none;
+    display: block;
+    position: relative;
 }
 
-@media (max-width: 600px) {
-    .compact-post-item {
-        grid-template-columns: 1fr;
-        gap: calc(var(--spacing-unit));
-    }
+.compact-post-item:hover {
+    border-color: var(--obsidian);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.compact-post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: calc(var(--spacing-unit) * 2);
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .compact-post-meta {
     font-family: var(--font-meta);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
-    padding-top: 6px;
-    /* Align with heading */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 .compact-post-content h3 {
-    font-size: 1.4rem;
-    margin-bottom: calc(var(--spacing-unit));
-}
-
-.compact-post-content h3 a {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    margin-bottom: 0;
     color: var(--obsidian);
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-}
-
-.compact-post-content h3 a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: 2px;
-    left: 0;
-    background-color: var(--obsidian);
-    transition: var(--transition-smooth);
-}
-
-.compact-post-content h3 a:hover::after {
-    width: 100%;
 }
 
 .post-summary {
     font-size: 1rem;
     margin-bottom: 0;
     color: var(--text-secondary);
+    max-width: 90%;
+}
+
+/* Pill Links */
+.pill-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 40px;
+    font-family: var(--font-meta);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--obsidian);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    background: transparent;
+}
+
+.pill-link:hover {
+    border-color: var(--obsidian);
+    background: var(--obsidian);
+    color: var(--bg-color);
 }
 
 /* Post Content Styles */

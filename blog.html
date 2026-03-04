@@ -65,16 +65,19 @@
                 posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
                 posts.forEach((post, index) => {
-                    const postEl = document.createElement('div');
+                    const postEl = document.createElement('a');
+                    postEl.href = `post.html?slug=${post.slug}`;
                     postEl.className = 'compact-post-item fade-in';
                     postEl.dataset.delay = (index % 5) + 1; // Stagger intro
 
                     postEl.innerHTML = `
-                        <div class="compact-post-meta">${post.date}</div>
-                        <div class="compact-post-content">
-                            <h3><a href="post.html?slug=${post.slug}">${post.title}</a></h3>
-                            ${post.summary ? `<p class="post-summary">${post.summary}</p>` : ''}
+                        <div class="compact-post-header">
+                            <div class="compact-post-content">
+                                <h3>${post.title}</h3>
+                            </div>
+                            <div class="compact-post-meta">${post.date}</div>
                         </div>
+                        ${post.summary ? `<p class="post-summary">${post.summary}</p>` : ''}
                     `;
                     container.appendChild(postEl);
                 });
