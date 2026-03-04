@@ -41,7 +41,6 @@ body {
     line-height: clamp(1.7, 5vw, 1.85);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
 }
 
 .container {
@@ -115,11 +114,12 @@ p {
 }
 
 .section-intro {
-    font-size: clamp(1.4rem, 3vw, 1.8rem);
-    line-height: 1.4;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    line-height: 1.5;
     color: var(--obsidian);
     margin-bottom: calc(var(--spacing-unit) * 10);
     font-style: italic;
+    max-width: var(--content-max);
 }
 
 /* Navigation Masthead */
@@ -159,13 +159,14 @@ nav .container {
     font-family: var(--font-meta);
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: var(--transition-smooth);
     position: relative;
-    padding-bottom: 4px;
+    padding: 8px 0;
+    /* Increased hit area */
 }
 
 .nav-links a::after {
@@ -291,11 +292,12 @@ nav .container {
     font-style: normal;
 }
 
-/* Animations */
+/* Animations: Reduced distance and added will-change for GPU optimization */
 .fade-in {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(15px);
+    will-change: opacity, transform;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .fade-in.visible {
