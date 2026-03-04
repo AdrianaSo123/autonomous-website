@@ -267,7 +267,7 @@ title: ${metadata.title}
 date: ${metadata.date}
 slug: ${metadata.slug}
 tags: ${JSON.stringify(metadata.tags)}
----------------------`;
+---`;
 
         const endIdx = generatedContentRaw.indexOf('---------------------');
         if (endIdx === -1) {
