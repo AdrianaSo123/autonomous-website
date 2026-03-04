@@ -109,8 +109,8 @@ section {
 
 .narrative-hero {
     min-height: auto;
-    /* Let the grid dictate height */
-    padding-top: calc(var(--section-spacing) / 1.5);
+    /* Clean SaaS density */
+    padding-top: calc(var(--section-spacing) / 2);
 }
 
 .narrative-bio {
@@ -120,9 +120,10 @@ section {
 }
 
 .narrative-bio p {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
-    line-height: 1.6;
-    color: var(--obsidian);
+    font-size: 1.05rem;
+    /* SaaS Hero Subtitle */
+    line-height: 1.5;
+    color: var(--text-secondary);
     margin-bottom: 0;
 }
 
@@ -388,30 +389,7 @@ nav .container {
     font-style: normal;
 }
 
-/* Animations: Reduced distance and added will-change for GPU optimization */
-.fade-in {
-    opacity: 0;
-    transform: translateY(15px);
-    will-change: opacity, transform;
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-[data-delay="1"] {
-    transition-delay: 0.1s;
-}
-
-[data-delay="2"] {
-    transition-delay: 0.2s;
-}
-
-[data-delay="3"] {
-    transition-delay: 0.3s;
-}
 
 footer {
     padding: 80px 0;
