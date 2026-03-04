@@ -1,33 +1,34 @@
-/* Typography: Dense, Interface Neo-Grotesque (Vercel/Linear style) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Typography: Artistic Studio Pairing (Outfit + Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-    /* Color Palette - Pure Interface */
-    --obsidian: #000000;
-    /* Pure black for high contrast */
+    /* Color Palette - Artistic SaaS Canvas */
+    --obsidian: #0A0A0A;
+    /* Elegant deep grey-black */
     --midnight: #111111;
-    --bg-color: #FFFFFF;
-    /* Pure white */
+    --bg-color: #FAFAFA;
+    /* Soft Chalk White canvas */
     --text-primary: var(--obsidian);
-    --text-secondary: #666666;
-    /* Crisp dark grey for readability */
+    --text-secondary: #5C5C5C;
+    /* Softer contrast for body */
     --accent-color: var(--obsidian);
-    --border-color: #EAEAEA;
-    /* Hairline borders */
-    --surface-glass: rgba(255, 255, 255, 0.9);
+    --border-color: #E2E2E2;
+    /* Subtle structural borders */
+    --surface-glass: rgba(250, 250, 250, 0.85);
 
-    /* Typography Scale (Pure Inter) */
-    --font-heading: 'Inter', sans-serif;
+    /* Typography Scale (Studio Pairing) */
+    --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
-    --font-meta: 'Inter', sans-serif;
+    --font-meta: 'JetBrains Mono', monospace;
+    /* Used strictly for artistic data points */
 
-    /* Spacing & Layout Constraints (Hyper-dense) */
+    /* Spacing & Layout Constraints (Fluid & Open) */
     --spacing-unit: 8px;
-    --section-spacing: clamp(64px, 10vh, 80px);
-    /* Massive reduction */
-    --container-max: 980px;
-    /* Tighter reading column */
-    --content-max: 640px;
+    --section-spacing: clamp(100px, 15vh, 160px);
+    /* Luxurious negative space */
+    --container-max: 1140px;
+    /* Expansive layout */
+    --content-max: 720px;
     /* Optimized reading width */
 
     --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -43,8 +44,8 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     font-family: var(--font-body);
-    line-height: 1.5;
-    /* Structured density */
+    line-height: clamp(1.6, 3vw, 1.75);
+    /* Open reading height */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -64,26 +65,20 @@ section {
     padding: var(--section-spacing) 0;
 }
 
-/* Hero Grid & Split Design */
-.hero {
-    padding: var(--section-spacing) 0;
-    min-height: 75vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
+/* Artistic Asymmetrical Hero Grid */
 .hero-split {
     display: grid;
     grid-template-columns: 1fr;
-    gap: calc(var(--spacing-unit) * 4);
-    /* Tighter grid */
-    align-items: center;
+    gap: calc(var(--spacing-unit) * 6);
+    align-items: end;
+    /* Bottom align for artistic tension */
 }
 
 @media (min-width: 900px) {
     .hero-split {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1.5fr 1fr;
+        /* Asymmetrical balance */
+        gap: calc(var(--spacing-unit) * 12);
     }
 }
 
@@ -105,18 +100,23 @@ section {
         inset 15px 15px 30px rgba(255, 255, 255, 0.8),
         0 10px 40px rgba(0, 0, 0, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.4);
+    margin-top: calc(var(--spacing-unit) * 4);
 }
 
 .narrative-hero {
-    min-height: auto;
-    /* Clean SaaS density */
-    padding-top: calc(var(--section-spacing) / 2);
+    min-height: 80vh;
+    /* Provide scale */
+    display: flex;
+    align-items: center;
+    padding-top: calc(var(--section-spacing) / 1.5);
+    padding-bottom: var(--section-spacing);
 }
 
 .narrative-bio {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--spacing-unit) * 3);
+    gap: calc(var(--spacing-unit) * 4);
+    /* More breathing room */
 }
 
 .narrative-bio p {
@@ -148,7 +148,7 @@ h2,
 h3,
 h4 {
     font-family: var(--font-heading);
-    font-weight: 700;
+    font-weight: 500;
     color: var(--obsidian);
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -156,28 +156,31 @@ h4 {
 
 /* Hero Typographic Lockup */
 h1 {
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
-    /* SaaS Controlled scale */
-    letter-spacing: -0.04em;
-    font-weight: 800;
-    /* Vercel punchiness */
-    margin-bottom: calc(var(--spacing-unit) * 2);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    /* Sweeping, commanding scale */
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    /* Elegant, not heavy */
+    margin-bottom: calc(var(--spacing-unit) * 3);
     line-height: 1.05;
 }
 
 .h1-accent {
     color: var(--text-secondary);
     display: block;
+    font-weight: 300;
+    font-style: italic;
 }
 
 h2 {
     font-family: var(--font-meta);
-    font-size: 0.8rem;
-    font-weight: 600;
+    /* Artistic/Technical metadata label */
+    font-size: 0.85rem;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--text-secondary);
-    margin-bottom: calc(var(--spacing-unit) * 4);
+    margin-bottom: calc(var(--spacing-unit) * 6);
     display: flex;
     align-items: center;
     gap: 20px;
@@ -191,16 +194,15 @@ h2::after {
 }
 
 h3 {
-    font-size: 1.125rem;
-    /* UI Component scale */
-    font-weight: 600;
-    margin-bottom: calc(var(--spacing-unit) * 1);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 500;
+    margin-bottom: calc(var(--spacing-unit) * 2);
     letter-spacing: -0.01em;
 }
 
 p {
-    font-size: 1rem;
-    /* Developer density */
+    font-family: var(--font-body);
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
     color: var(--text-secondary);
     margin-bottom: calc(var(--spacing-unit) * 3);
     max-width: var(--content-max);
@@ -240,8 +242,8 @@ nav .container {
 
 .nav-brand {
     font-family: var(--font-heading);
-    font-weight: 600;
-    font-size: 1.6rem;
+    font-weight: 500;
+    font-size: 1.4rem;
     color: var(--obsidian);
     text-decoration: none;
     letter-spacing: -0.02em;
@@ -254,16 +256,16 @@ nav .container {
 
 .nav-links a {
     font-family: var(--font-meta);
+    /* Monospace utility links */
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: var(--transition-smooth);
     position: relative;
     padding: 8px 0;
-    /* Increased hit area */
 }
 
 .nav-links a::after {
@@ -397,7 +399,8 @@ footer {
     font-family: var(--font-meta);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    /* Updated from 0.7rem */
     color: var(--text-secondary);
 }
 
@@ -429,30 +432,50 @@ footer {
 
 .compact-post-item {
     border: 1px solid var(--border-color);
-    padding: calc(var(--spacing-unit) * 2.5);
-    /* Tighter padding */
-    border-radius: 6px;
-    transition: var(--transition-smooth);
-    background: var(--bg-color);
+    padding: calc(var(--spacing-unit) * 4);
+    /* Elegant spacing, not cramped */
+    border-radius: 8px;
+    /* Slightly softer corners */
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Slower, fluid transition */
+    background: transparent;
+    /* Let the chalk white show through */
     text-decoration: none;
     display: block;
     position: relative;
+    overflow: hidden;
+}
+
+.compact-post-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #FFFFFF;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: -1;
 }
 
 .compact-post-item:hover {
-    border-color: #D0D0D0;
-    /* Sharper line */
-    background: #FFFFFF;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    /* Vercel micro-shadow */
+    border-color: #D1D1D1;
+    transform: translateY(-2px);
+    /* Gentle float */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+    /* Expansive, soft shadow */
+}
+
+.compact-post-item:hover::before {
+    opacity: 1;
+    /* Soft white glow on hover */
 }
 
 .compact-post-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: calc(var(--spacing-unit) * 2);
     flex-wrap: wrap;
     gap: 8px;
 }
@@ -483,31 +506,30 @@ footer {
     max-width: 100%;
 }
 
-/* Pill Links */
+/* Pill Links - Elegant execution */
 .pill-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 14px;
-    /* Dense UI padding */
+    padding: 8px 18px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
-    /* Sharper SaaS corners instead of full pill */
+    border-radius: 40px;
+    /* Return to elegant pill shape */
     font-family: var(--font-body);
-    font-size: 13px;
-    /* 13px app standard */
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--obsidian);
     text-decoration: none;
-    transition: var(--transition-smooth);
-    background: var(--bg-color);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s ease;
+    background: transparent;
 }
 
 .pill-link:hover {
-    border-color: #CCCCCC;
-    background: #F9F9F9;
-    color: var(--obsidian);
+    border-color: var(--obsidian);
+    background: var(--obsidian);
+    color: var(--bg-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(10, 10, 10, 0.1);
 }
 
 /* Post Content Styles */
