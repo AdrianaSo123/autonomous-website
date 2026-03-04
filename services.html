@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="services.html" class="active">Services</a>
+            <a href="works.html">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Services Section -->
+        <section id="services-section" class="fade-in">
+            <h2>What I Do</h2>
+            <p class="section-intro">Specialized architectural consulting for agentic systems and enterprise AI
+                adoption.</p>
+            <div id="services-grid" class="grid-2col">
+                <!-- Injected Services -->
+                <p>Loading expertise...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        async function loadContent() {
+            try {
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Services | ${data.personal_brand.name}`;
+                }
+
+                const servicesGrid = document.getElementById('services-grid');
+                servicesGrid.innerHTML = '';
+
+                data.services.forEach(service => {
+                    const el = document.createElement('div');
+                    el.className = 'service-card';
+                    el.innerHTML = `
+                        <h3>${service.title}</h3>
+                        <p>${service.description}</p>
+                    `;
+                    servicesGrid.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('services-grid').innerHTML = '<p>Failed to load services.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>

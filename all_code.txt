@@ -122,6 +122,391 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
 - No persistent PAT/access tokens are stored. The automated commit leverages the secure, ephemeral `github-actions[bot]`.
 
 
+=== index.html ===
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="services.html">Services</a>
+            <a href="works.html">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <main class="hero fade-in">
+            <h1 id="brand-tagline" class="hero-tagline" style="font-size: clamp(3.5rem, 8vw, 6rem); max-width: 14ch;">
+                Loading...</h1>
+            <p id="brand-bio" class="hero-bio"></p>
+            <div class="hero-cta">
+                <a href="contact.html" class="btn">Let's Talk</a>
+                <a href="services.html" class="btn-secondary">View Services</a>
+            </div>
+        </main>
+
+        <!-- Services Preview Section -->
+        <section id="services-preview" class="fade-in">
+            <h2>Expertise</h2>
+            <div id="services-grid" class="grid-2col">
+                <!-- Injected Services (Limited) -->
+            </div>
+            <div class="section-footer">
+                <a href="services.html" class="view-all">All Services →</a>
+            </div>
+        </section>
+
+        <!-- Works Preview Section -->
+        <section id="works-preview" class="fade-in">
+            <h2>Systems</h2>
+            <div id="works-grid" class="grid-2col">
+                <!-- Injected Works (Limited) -->
+            </div>
+            <div class="section-footer">
+                <a href="works.html" class="view-all">View All Works →</a>
+            </div>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section id="philosophy-section" class="fade-in">
+            <h2>Philosophy</h2>
+            <div class="philosophy-content">
+                <h3 id="philosophy-title"></h3>
+                <p id="philosophy-text"></p>
+            </div>
+        </section>
+
+        <!-- Proof Section -->
+        <section id="proof-section" class="fade-in">
+            <h2>Perspective</h2>
+            <div id="proof-content">
+                <!-- Injected Quote -->
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations } from './js/app.js';
+
+        // Data Fetching and Hydration
+        async function loadContent() {
+            try {
+                const response = await fetch('content.json');
+                if (!response.ok) throw new Error('Failed to load content');
+                const data = await response.json();
+
+                // document title & Nav
+                document.title = `${data.personal_brand.name} | ${data.personal_brand.tagline}`;
+                document.getElementById('nav-brand-name').textContent = data.personal_brand.name;
+
+                // Hero Content
+                document.getElementById('brand-tagline').textContent = data.personal_brand.tagline;
+                document.getElementById('brand-bio').textContent = data.personal_brand.bio;
+
+                // Services Content (Limit to 2 for preview)
+                const servicesGrid = document.getElementById('services-grid');
+                data.services.slice(0, 2).forEach(service => {
+                    const el = document.createElement('div');
+                    el.className = 'service-card';
+                    el.innerHTML = `
+                        <h3>${service.title}</h3>
+                        <p>${service.description}</p>
+                    `;
+                    servicesGrid.appendChild(el);
+                });
+
+                // Works Content (Limit to 2 for preview)
+                const worksGrid = document.getElementById('works-grid');
+                data.selected_works.slice(0, 2).forEach(work => {
+                    const el = document.createElement('div');
+                    el.className = 'work-card';
+                    el.innerHTML = `
+                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
+                        <p>${work.description}</p>
+                    `;
+                    worksGrid.appendChild(el);
+                });
+
+                // Philosophy Content
+                if (data.philosophy) {
+                    document.getElementById('philosophy-title').textContent = data.philosophy.title;
+                    document.getElementById('philosophy-text').textContent = data.philosophy.content;
+                }
+
+                // Proof Content
+                const proofContent = document.getElementById('proof-content');
+                if (data.social_proof && data.social_proof.length > 0) {
+                    const proof = data.social_proof[0];
+                    proofContent.innerHTML = `
+                        <blockquote>"${proof.quote}"</blockquote>
+                        <cite>&mdash; ${proof.source}</cite>
+                    `;
+                }
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>
+
+=== services.html ===
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="services.html" class="active">Services</a>
+            <a href="works.html">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Services Section -->
+        <section id="services-section" class="fade-in">
+            <h2>What I Do</h2>
+            <p class="section-intro">Specialized architectural consulting for agentic systems and enterprise AI
+                adoption.</p>
+            <div id="services-grid" class="grid-2col">
+                <!-- Injected Services -->
+                <p>Loading expertise...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        async function loadContent() {
+            try {
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Services | ${data.personal_brand.name}`;
+                }
+
+                const servicesGrid = document.getElementById('services-grid');
+                servicesGrid.innerHTML = '';
+
+                data.services.forEach(service => {
+                    const el = document.createElement('div');
+                    el.className = 'service-card';
+                    el.innerHTML = `
+                        <h3>${service.title}</h3>
+                        <p>${service.description}</p>
+                    `;
+                    servicesGrid.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('services-grid').innerHTML = '<p>Failed to load services.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>
+
+=== works.html ===
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="services.html">Services</a>
+            <a href="works.html" class="active">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Selected Works / Systems Section -->
+        <section id="works-section" class="fade-in">
+            <h2>Selected Works \ Systems</h2>
+            <p class="section-intro">A curated portfolio of deterministic AI systems and architectural deployments.</p>
+            <div id="works-grid" class="grid-2col">
+                <!-- Injected Works -->
+                <p>Loading portfolio...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        async function loadContent() {
+            try {
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Works | ${data.personal_brand.name}`;
+                }
+
+                const worksGrid = document.getElementById('works-grid');
+                worksGrid.innerHTML = '';
+
+                data.selected_works.forEach(work => {
+                    const el = document.createElement('div');
+                    el.className = 'work-card';
+                    el.innerHTML = `
+                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
+                        <p>${work.description}</p>
+                    `;
+                    worksGrid.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('works-grid').innerHTML = '<p>Failed to load works.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>
+
+=== contact.html ===
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="services.html">Services</a>
+            <a href="works.html">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Contact Section -->
+        <section id="contact-section" class="fade-in">
+            <h2>Contact</h2>
+            <p class="section-intro">For inquiries regarding systemic integration and agentic architectural advisory.
+            </p>
+            <div id="contact-links" class="contact-links">
+                <!-- Injected Links -->
+                <p>Establishing connection...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        async function loadContent() {
+            try {
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Contact | ${data.personal_brand.name}`;
+                }
+
+                const contactLinks = document.getElementById('contact-links');
+                contactLinks.innerHTML = '';
+
+                data.connect_links.forEach(link => {
+                    const el = document.createElement('a');
+                    el.href = link.url;
+
+                    if (!link.url.startsWith('mailto')) {
+                        el.target = "_blank";
+                        el.rel = "noopener noreferrer";
+                        el.innerHTML = `${link.platform}<span class="external-icon">↗</span>`;
+                    } else {
+                        el.textContent = link.platform;
+                    }
+
+                    contactLinks.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('contact-links').innerHTML = '<p>Failed to load contact info.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>
+
 === blog.html ===
 <!DOCTYPE html>
 <html lang="en">
@@ -138,10 +523,10 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
     <nav>
         <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
         <div class="nav-links">
-            <a href="index.html#services-section">Services</a>
-            <a href="index.html#works-section">Works</a>
+            <a href="services.html">Services</a>
+            <a href="works.html">Works</a>
             <a href="blog.html" class="active">Blog</a>
-            <a href="index.html#contact-section">Contact</a>
+            <a href="contact.html">Contact</a>
         </div>
     </nav>
 
@@ -213,686 +598,6 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
             } catch (error) {
                 console.error('Data hydration failed:', error);
                 document.getElementById('posts-container').innerHTML = '<p>Failed to load perspectives.</p>';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadContent);
-    </script>
-</body>
-
-</html>
-
-=== css/shared.css ===
-/* Typography: High-contrast Serif + clean Sans */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap');
-
-:root {
-    --bg-color: #FDFBF7; /* Warm paper off-white */
-    --text-primary: #1A1A1A; /* Soft black */
-    --text-secondary: #5C5A55; /* Muted stone */
-    --accent-color: #1A1A1A; /* Soft black, removing blue */
-    --border-color: #D5D0C4; /* Subdued stone/taupe */
-
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Lora', serif;
-    --font-meta: 'Inter', sans-serif;
-
-    --spacing-unit: 8px;
-    --section-spacing: 140px;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    line-height: 1.8;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.container {
-    max-width: 900px;
-    /* Constrained width for optimal reading and white space */
-    margin: 0 auto;
-    padding: 0 5%;
-}
-
-/* Semantic Layout & Rhythm */
-section {
-    padding: calc(var(--section-spacing) / 2) 0;
-}
-
-.hero {
-    padding: var(--section-spacing) 0;
-    min-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-/* Typography Hierarchy */
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: 400;
-}
-
-/* Base h1 for pages */
-h1 {
-    font-size: clamp(3.5rem, 8vw, 6rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: calc(var(--spacing-unit) * 4);
-    max-width: 16ch;
-}
-
-h2 {
-    font-family: var(--font-meta);
-    font-size: 0.875rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-secondary);
-    margin-bottom: calc(var(--spacing-unit) * 6);
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-h2::after {
-    content: "";
-    display: block;
-    height: 1px;
-    width: 60px;
-    background-color: var(--border-color);
-}
-
-h3 {
-    font-size: 1.75rem;
-    margin-bottom: calc(var(--spacing-unit) * 2);
-    color: var(--text-primary);
-    line-height: 1.3;
-}
-
-p {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    max-width: 60ch;
-    margin-bottom: calc(var(--spacing-unit) * 2);
-}
-
-.hero-tagline {
-    font-size: 1.75rem;
-    color: var(--text-primary);
-    font-style: italic;
-    margin-bottom: calc(var(--spacing-unit) * 3);
-}
-
-.hero-bio {
-    font-size: 1.25rem;
-    max-width: 55ch;
-}
-
-/* Element styling */
-.grid-2col {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: calc(var(--spacing-unit) * 8);
-}
-
-@media (min-width: 768px) {
-    .grid-2col {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.service-card, .work-card {
-    border-top: 1px solid var(--border-color);
-    padding-top: calc(var(--spacing-unit) * 3);
-}
-
-.work-card a {
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    position: relative;
-}
-
-.work-card a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 1px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--accent-color);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-out;
-}
-
-.work-card a:hover {
-    color: var(--accent-color);
-}
-
-.work-card a:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-}
-
-.philosophy-content {
-    border-left: 2px solid var(--accent-color);
-    padding-left: calc(var(--spacing-unit) * 4);
-}
-
-.philosophy-content p {
-    font-size: 1.5rem;
-    line-height: 1.5;
-    color: var(--text-primary);
-    max-width: 40ch;
-}
-
-blockquote {
-    font-size: 2rem;
-    font-weight: 300;
-    line-height: 1.3;
-    color: var(--text-primary);
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    letter-spacing: -0.01em;
-}
-
-cite {
-    font-style: normal;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-secondary);
-}
-
-.contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--spacing-unit) * 2);
-}
-
-.contact-links a {
-    font-size: 1.5rem;
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    display: inline-block;
-    width: fit-content;
-}
-
-.contact-links a:hover {
-    color: var(--accent-color);
-}
-
-/* Minimal Subtle Animations */
-.fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-footer {
-    padding: calc(var(--section-spacing) / 2) 0;
-    border-top: 1px solid var(--border-color);
-    margin-top: var(--section-spacing);
-    text-align: left;
-    font-family: var(--font-meta);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-}
-
-/* Navigation (Editorial Masthead) */
-nav {
-    padding: calc(var(--spacing-unit) * 4) 5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: calc(var(--section-spacing) / 1.5);
-    position: sticky;
-    top: 0;
-    background: rgba(253, 251, 247, 0.9);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    z-index: 1000;
-}
-
-.nav-brand {
-    font-family: var(--font-heading);
-    font-weight: 500;
-    font-size: 2.25rem;
-    color: var(--text-primary);
-    text-decoration: none !important;
-    letter-spacing: -0.02em;
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    margin-top: 0;
-}
-
-.nav-links {
-    display: flex;
-    gap: calc(var(--spacing-unit) * 6);
-}
-
-.nav-links a {
-    font-family: var(--font-meta);
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: color 0.3s ease;
-}
-
-.nav-links a:hover, .nav-links a.active {
-    color: var(--text-primary);
-}
-
-.btn {
-    display: inline-block;
-    font-family: var(--font-meta);
-    color: var(--bg-color);
-    background-color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-top: calc(var(--spacing-unit) * 4);
-    padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 4);
-    border: 1px solid var(--text-primary);
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    background-color: transparent;
-    color: var(--text-primary);
-}
-
-.external-icon {
-    font-family: var(--font-meta);
-    font-size: 0.8em;
-    margin-left: 6px;
-    opacity: 0.8;
-}
-
-/* Essential Blog Styles */
-.post-list {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--spacing-unit) * 6);
-}
-
-.post-item {
-    border-top: 1px solid var(--border-color);
-    padding-top: calc(var(--spacing-unit) * 3);
-}
-
-.post-meta {
-    font-family: var(--font-meta);
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    margin-bottom: calc(var(--spacing-unit));
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.post-title {
-    font-size: 1.75rem;
-    margin-bottom: calc(var(--spacing-unit));
-    color: var(--text-primary);
-    line-height: 1.3;
-}
-
-.post-title a {
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    position: relative;
-}
-
-.post-title a::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 1px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--accent-color);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-out;
-}
-
-.post-title a:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-}
-
-.post-tags {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    display: flex;
-    gap: 8px;
-}
-
-.tag {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    padding: 2px 8px;
-    border-radius: 4px;
-    color: var(--text-secondary);
-}
-
-/* Post view specifics */
-article {
-    padding: calc(var(--section-spacing) / 3) 0;
-    min-height: 60vh;
-}
-
-.post-body-content h1, 
-.post-body-content h2, 
-.post-body-content h3, 
-.post-body-content h4, 
-.post-body-content h5, 
-.post-body-content h6 {
-    color: var(--text-primary);
-    margin-top: calc(var(--spacing-unit) * 6);
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    line-height: 1.3;
-}
-
-.post-body-content h1 {
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-top: 0;
-    margin-bottom: calc(var(--spacing-unit) * 2);
-}
-
-.post-body-content h2 { font-size: 2.25rem; font-family: var(--font-heading); text-transform: none; letter-spacing: normal; }
-.post-body-content h2::after { display: none; }
-.post-body-content h3 { font-size: 1.75rem; }
-
-.post-body-content p, 
-.post-body-content ul, 
-.post-body-content ol {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    max-width: 65ch;
-}
-
-.post-body-content li {
-    margin-bottom: calc(var(--spacing-unit));
-    max-width: 65ch;
-}
-
-.post-body-content ul, 
-.post-body-content ol {
-    padding-left: calc(var(--spacing-unit) * 4);
-}
-
-.post-body-content a {
-    color: var(--text-primary);
-    text-decoration: underline;
-    text-decoration-color: var(--border-color);
-    text-underline-offset: 4px;
-    transition: all 0.3s ease;
-}
-
-.post-body-content a:hover {
-    text-decoration-color: var(--text-primary);
-    color: var(--accent-color);
-}
-
-.post-body-content blockquote {
-    border-left: 2px solid var(--accent-color);
-    padding-left: calc(var(--spacing-unit) * 4);
-    margin: calc(var(--spacing-unit) * 5) 0;
-    font-family: var(--font-body);
-    font-size: 1.5rem;
-    font-style: italic;
-    color: var(--text-primary);
-    max-width: 50ch;
-    line-height: 1.5;
-}
-
-.post-body-content code {
-    font-family: monospace;
-    background: #F0EDE5;
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.9em;
-    color: var(--text-primary);
-}
-
-.post-body-content pre {
-    background: #F0EDE5;
-    padding: 16px;
-    border-radius: 4px;
-    overflow-x: auto;
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    max-width: 800px;
-}
-
-.post-body-content pre code {
-    background: none;
-    padding: 0;
-    font-size: 0.95rem;
-}
-
-.post-body-content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin: calc(var(--spacing-unit) * 4) 0;
-}
-
-.post-body-content hr {
-    border: 0;
-    height: 1px;
-    background-color: var(--border-color);
-    margin: calc(var(--spacing-unit) * 6) 0;
-}
-
-.back-link {
-    font-family: var(--font-meta);
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-decoration: none !important;
-    color: var(--text-secondary);
-    display: inline-block;
-    margin-bottom: calc(var(--spacing-unit) * 4);
-    transition: color 0.3s;
-}
-
-.back-link:hover {
-    color: var(--text-primary);
-}
-
-.post-header {
-    margin-bottom: calc(var(--spacing-unit) * 6);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: calc(var(--spacing-unit) * 4);
-}
-
-
-=== index.html ===
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strategic AI Intelligence</title>
-    <link rel="stylesheet" href="css/shared.css">
-</head>
-
-<body>
-
-    <nav>
-        <a href="#" class="nav-brand" id="nav-brand-name">Adriana So</a>
-        <div class="nav-links">
-            <a href="#services-section">Services</a>
-            <a href="#works-section">Works</a>
-            <a href="blog.html">Blog</a>
-            <a href="#contact-section">Contact</a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <!-- Hero Section -->
-        <main class="hero fade-in">
-            <h1 id="brand-tagline" class="hero-tagline" style="font-size: clamp(3.5rem, 8vw, 6rem); max-width: 14ch;">
-                Loading...</h1>
-            <p id="brand-bio" class="hero-bio"></p>
-            <a href="#contact-section" class="btn">Let's Talk</a>
-        </main>
-
-        <!-- Services Section -->
-        <section id="services-section" class="fade-in">
-            <h2>What I Do</h2>
-            <div id="services-grid" class="grid-2col">
-                <!-- Injected Services -->
-            </div>
-        </section>
-
-        <!-- Selected Works / Systems Section -->
-        <section id="works-section" class="fade-in">
-            <h2>Selected Works \ Systems</h2>
-            <div id="works-grid" class="grid-2col">
-                <!-- Injected Works -->
-            </div>
-        </section>
-
-        <!-- Philosophy Section -->
-        <section id="philosophy-section" class="fade-in">
-            <h2>Philosophy</h2>
-            <div class="philosophy-content">
-                <h3 id="philosophy-title"></h3>
-                <p id="philosophy-text"></p>
-            </div>
-        </section>
-
-        <!-- Proof Section -->
-        <section id="proof-section" class="fade-in">
-            <h2>Perspective</h2>
-            <div id="proof-content">
-                <!-- Injected Quote -->
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact-section" class="fade-in">
-            <h2>Contact</h2>
-            <div id="contact-links" class="contact-links">
-                <!-- Injected Links -->
-            </div>
-        </section>
-
-        <footer>
-            Intelligently generated. Deterministically deployed.
-        </footer>
-    </div>
-
-    <script type="module">
-        import { setupAnimations } from './js/app.js';
-
-        // Data Fetching and Hydration
-        async function loadContent() {
-            try {
-                const response = await fetch('content.json');
-                if (!response.ok) throw new Error('Failed to load content');
-                const data = await response.json();
-
-                // document title & Nav
-                document.title = `${data.personal_brand.name} | ${data.personal_brand.tagline}`;
-                document.getElementById('nav-brand-name').textContent = data.personal_brand.name;
-
-                // Hero Content
-                // document.getElementById('brand-name').textContent = data.personal_brand.name; // Redundant, removed per UX Audit
-                document.getElementById('brand-tagline').textContent = data.personal_brand.tagline;
-                document.getElementById('brand-bio').textContent = data.personal_brand.bio;
-
-                // Services Content
-                const servicesGrid = document.getElementById('services-grid');
-                data.services.forEach(service => {
-                    const el = document.createElement('div');
-                    el.className = 'service-card';
-                    el.innerHTML = `
-                        <h3>${service.title}</h3>
-                        <p>${service.description}</p>
-                    `;
-                    servicesGrid.appendChild(el);
-                });
-
-                // Works Content
-                const worksGrid = document.getElementById('works-grid');
-                data.selected_works.forEach(work => {
-                    const el = document.createElement('div');
-                    el.className = 'work-card';
-                    el.innerHTML = `
-                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
-                        <p>${work.description}</p>
-                    `;
-                    worksGrid.appendChild(el);
-                });
-
-                // Philosophy Content
-                if (data.philosophy) {
-                    document.getElementById('philosophy-title').textContent = data.philosophy.title;
-                    document.getElementById('philosophy-text').textContent = data.philosophy.content;
-                }
-
-                // Proof Content
-                const proofContent = document.getElementById('proof-content');
-                if (data.social_proof && data.social_proof.length > 0) {
-                    const proof = data.social_proof[0]; // just highlight the first one for minimalism
-                    proofContent.innerHTML = `
-                        <blockquote>"${proof.quote}"</blockquote>
-                        <cite>&mdash; ${proof.source}</cite>
-                    `;
-                }
-
-                // Contact Content
-                const contactLinks = document.getElementById('contact-links');
-                data.connect_links.forEach(link => {
-                    const el = document.createElement('a');
-                    el.href = link.url;
-
-                    if (!link.url.startsWith('mailto')) {
-                        el.target = "_blank";
-                        el.rel = "noopener noreferrer";
-                        el.innerHTML = `${link.platform}<span class="external-icon">↗</span>`;
-                    } else {
-                        el.textContent = link.platform;
-                    }
-
-                    contactLinks.appendChild(el);
-                });
-
-                setupAnimations(true);
-
-            } catch (error) {
-                console.error('Data hydration failed:', error);
             }
         }
 
@@ -1019,10 +724,10 @@ export function stripFrontmatter(markdown) {
     <nav>
         <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
         <div class="nav-links">
-            <a href="index.html#services-section">Services</a>
-            <a href="index.html#works-section">Works</a>
+            <a href="services.html">Services</a>
+            <a href="works.html">Works</a>
             <a href="blog.html" class="active">Blog</a>
-            <a href="index.html#contact-section">Contact</a>
+            <a href="contact.html">Contact</a>
         </div>
     </nav>
 
@@ -1069,7 +774,7 @@ export function stripFrontmatter(markdown) {
                 }
 
                 // Verify metadata 
-                const indexRes = await fetch('/posts/index.json');
+                const indexRes = await fetch('posts/index.json');
                 if (!indexRes.ok) throw new Error('Failed to load posts index');
                 const posts = await indexRes.json();
 
@@ -1081,7 +786,7 @@ export function stripFrontmatter(markdown) {
                 document.title = `${postMeta.title} | Journal`;
 
                 // Fetch actual markdown text file
-                const mdRes = await fetch(`/posts/${slug}.md`);
+                const mdRes = await fetch(`posts/${slug}.md`);
                 if (!mdRes.ok) throw new Error('Failed to load markdown content');
                 const markdown = await mdRes.text();
 
@@ -1158,6 +863,7 @@ export function stripFrontmatter(markdown) {
     }
 }
 
+
 === posts-schema.json ===
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -1199,6 +905,7 @@ export function stripFrontmatter(markdown) {
     ],
     "additionalProperties": false
 }
+
 
 === schema.json ===
 {
@@ -1332,6 +1039,7 @@ export function stripFrontmatter(markdown) {
   ],
   "additionalProperties": false
 }
+
 
 === scripts/new-post.js ===
 const fs = require('fs');
@@ -2124,3 +1832,61 @@ app.listen(port, () => {
 });
 
 
+=== content.json ===
+{
+    "personal_brand": {
+        "name": "Adriana So",
+        "tagline": "Systemic AI Integration & Design",
+        "bio": "I advise enterprise teams on agentic systems, AI adoption strategy, and the human-computer interfaces that drive them."
+    },
+    "services": [
+        {
+            "title": "AI Workflow Design",
+            "description": "Mapping complex organizational processes into deterministic, reliable LLM-driven sequences."
+        },
+        {
+            "title": "Agentic Systems",
+            "description": "Architecting autonomous, headless deployments that execute independently and scale effortlessly."
+        },
+        {
+            "title": "AI Adoption Strategy",
+            "description": "Providing executive-level roadmaps for embedding generative models into legacy data pipelines."
+        },
+        {
+            "title": "UX for AI",
+            "description": "Designing human-centered interfaces that make probabilistic outputs feel tangible and trustworthy."
+        }
+    ],
+    "selected_works": [
+        {
+            "title": "Autonomous Deployment Framework",
+            "description": "A zero-maintenance, structured JSON CMS driven entirely by GitHub Actions and deterministic AI orchestration.",
+            "link": "#"
+        },
+        {
+            "title": "Enterprise Knowledge Graph Integration",
+            "description": "Consolidated silos into an agent-accessible vector database, reducing engineering overhead by 40%.",
+            "link": "#"
+        }
+    ],
+    "philosophy": {
+        "title": "Structured Intelligence",
+        "content": "AI is most effective when constrained. My approach favors strict schemas, programmatic guardrails, and deterministic outcomes over unpredictable generative sprawl. Excellence lies in systems thinking, not prompt engineering alone."
+    },
+    "social_proof": [
+        {
+            "source": "VP of Engineering, Enterprise AI",
+            "quote": "Adriana's ability to navigate the operational complexities of agent deployments is unmatched. She brings clarity to a noisy domain."
+        }
+    ],
+    "connect_links": [
+        {
+            "platform": "hello@adrianaso.com",
+            "url": "mailto:hello@adrianaso.com"
+        },
+        {
+            "platform": "LinkedIn",
+            "url": "https://linkedin.com/in/adrianaso"
+        }
+    ]
+}

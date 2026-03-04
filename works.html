@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="services.html">Services</a>
+            <a href="works.html" class="active">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Selected Works / Systems Section -->
+        <section id="works-section" class="fade-in">
+            <h2>Selected Works \ Systems</h2>
+            <p class="section-intro">A curated portfolio of deterministic AI systems and architectural deployments.</p>
+            <div id="works-grid" class="grid-2col">
+                <!-- Injected Works -->
+                <p>Loading portfolio...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        async function loadContent() {
+            try {
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Works | ${data.personal_brand.name}`;
+                }
+
+                const worksGrid = document.getElementById('works-grid');
+                worksGrid.innerHTML = '';
+
+                data.selected_works.forEach(work => {
+                    const el = document.createElement('div');
+                    el.className = 'work-card';
+                    el.innerHTML = `
+                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
+                        <p>${work.description}</p>
+                    `;
+                    worksGrid.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('works-grid').innerHTML = '<p>Failed to load works.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>

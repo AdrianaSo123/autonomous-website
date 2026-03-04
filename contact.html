@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Strategic AI Intelligence</title>
+    <link rel="stylesheet" href="css/shared.css">
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <div class="nav-links">
+            <a href="services.html">Services</a>
+            <a href="works.html">Works</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Contact Section -->
+        <section id="contact-section" class="fade-in">
+            <h2>Contact</h2>
+            <p class="section-intro">For inquiries regarding systemic integration and agentic architectural advisory.
+            </p>
+            <div id="contact-links" class="contact-links">
+                <!-- Injected Links -->
+                <p>Establishing connection...</p>
+            </div>
+        </section>
+
+        <footer>
+            Intelligently generated. Deterministically deployed.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { setupAnimations, loadBrandData } from './js/app.js';
+
+        async function loadContent() {
+            try {
+                const data = await loadBrandData();
+                if (data && data.personal_brand) {
+                    document.title = `Contact | ${data.personal_brand.name}`;
+                }
+
+                const contactLinks = document.getElementById('contact-links');
+                contactLinks.innerHTML = '';
+
+                data.connect_links.forEach(link => {
+                    const el = document.createElement('a');
+                    el.href = link.url;
+
+                    if (!link.url.startsWith('mailto')) {
+                        el.target = "_blank";
+                        el.rel = "noopener noreferrer";
+                        el.innerHTML = `${link.platform}<span class="external-icon">↗</span>`;
+                    } else {
+                        el.textContent = link.platform;
+                    }
+
+                    contactLinks.appendChild(el);
+                });
+
+                setupAnimations(true);
+
+            } catch (error) {
+                console.error('Data hydration failed:', error);
+                document.getElementById('contact-links').innerHTML = '<p>Failed to load contact info.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadContent);
+    </script>
+</body>
+
+</html>

@@ -11,12 +11,12 @@
 <body>
 
     <nav>
-        <a href="#" class="nav-brand" id="nav-brand-name">Adriana So</a>
+        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
         <div class="nav-links">
-            <a href="#services-section">Services</a>
-            <a href="#works-section">Works</a>
+            <a href="services.html">Services</a>
+            <a href="works.html">Works</a>
             <a href="blog.html">Blog</a>
-            <a href="#contact-section">Contact</a>
+            <a href="contact.html">Contact</a>
         </div>
     </nav>
 
@@ -26,22 +26,31 @@
             <h1 id="brand-tagline" class="hero-tagline" style="font-size: clamp(3.5rem, 8vw, 6rem); max-width: 14ch;">
                 Loading...</h1>
             <p id="brand-bio" class="hero-bio"></p>
-            <a href="#contact-section" class="btn">Let's Talk</a>
+            <div class="hero-cta">
+                <a href="contact.html" class="btn">Let's Talk</a>
+                <a href="services.html" class="btn-secondary">View Services</a>
+            </div>
         </main>
 
-        <!-- Services Section -->
-        <section id="services-section" class="fade-in">
-            <h2>What I Do</h2>
+        <!-- Services Preview Section -->
+        <section id="services-preview" class="fade-in">
+            <h2>Expertise</h2>
             <div id="services-grid" class="grid-2col">
-                <!-- Injected Services -->
+                <!-- Injected Services (Limited) -->
+            </div>
+            <div class="section-footer">
+                <a href="services.html" class="view-all">All Services →</a>
             </div>
         </section>
 
-        <!-- Selected Works / Systems Section -->
-        <section id="works-section" class="fade-in">
-            <h2>Selected Works \ Systems</h2>
+        <!-- Works Preview Section -->
+        <section id="works-preview" class="fade-in">
+            <h2>Systems</h2>
             <div id="works-grid" class="grid-2col">
-                <!-- Injected Works -->
+                <!-- Injected Works (Limited) -->
+            </div>
+            <div class="section-footer">
+                <a href="works.html" class="view-all">View All Works →</a>
             </div>
         </section>
 
@@ -59,14 +68,6 @@
             <h2>Perspective</h2>
             <div id="proof-content">
                 <!-- Injected Quote -->
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact-section" class="fade-in">
-            <h2>Contact</h2>
-            <div id="contact-links" class="contact-links">
-                <!-- Injected Links -->
             </div>
         </section>
 
@@ -90,13 +91,12 @@
                 document.getElementById('nav-brand-name').textContent = data.personal_brand.name;
 
                 // Hero Content
-                // document.getElementById('brand-name').textContent = data.personal_brand.name; // Redundant, removed per UX Audit
                 document.getElementById('brand-tagline').textContent = data.personal_brand.tagline;
                 document.getElementById('brand-bio').textContent = data.personal_brand.bio;
 
-                // Services Content
+                // Services Content (Limit to 2 for preview)
                 const servicesGrid = document.getElementById('services-grid');
-                data.services.forEach(service => {
+                data.services.slice(0, 2).forEach(service => {
                     const el = document.createElement('div');
                     el.className = 'service-card';
                     el.innerHTML = `
@@ -106,9 +106,9 @@
                     servicesGrid.appendChild(el);
                 });
 
-                // Works Content
+                // Works Content (Limit to 2 for preview)
                 const worksGrid = document.getElementById('works-grid');
-                data.selected_works.forEach(work => {
+                data.selected_works.slice(0, 2).forEach(work => {
                     const el = document.createElement('div');
                     el.className = 'work-card';
                     el.innerHTML = `
@@ -127,29 +127,12 @@
                 // Proof Content
                 const proofContent = document.getElementById('proof-content');
                 if (data.social_proof && data.social_proof.length > 0) {
-                    const proof = data.social_proof[0]; // just highlight the first one for minimalism
+                    const proof = data.social_proof[0];
                     proofContent.innerHTML = `
                         <blockquote>"${proof.quote}"</blockquote>
                         <cite>&mdash; ${proof.source}</cite>
                     `;
                 }
-
-                // Contact Content
-                const contactLinks = document.getElementById('contact-links');
-                data.connect_links.forEach(link => {
-                    const el = document.createElement('a');
-                    el.href = link.url;
-
-                    if (!link.url.startsWith('mailto')) {
-                        el.target = "_blank";
-                        el.rel = "noopener noreferrer";
-                        el.innerHTML = `${link.platform}<span class="external-icon">↗</span>`;
-                    } else {
-                        el.textContent = link.platform;
-                    }
-
-                    contactLinks.appendChild(el);
-                });
 
                 setupAnimations(true);
 
