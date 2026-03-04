@@ -1,5 +1,5 @@
-/* Typography: Geometric Sans (Outfit) + Reading Sans (Inter) + Meta (JetBrains) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+/* Typography: Premium 2-Font System (Outfit + Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
     /* Color Palette - Premium AI Toolkit */
@@ -13,10 +13,10 @@
     --border-color: #E2E2E2;
     --surface-glass: rgba(255, 255, 255, 0.85);
 
-    /* Typography Scale (Fluid) */
+    /* Typography Scale (Strict 2-Font System) */
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
-    --font-meta: 'JetBrains Mono', monospace;
+    --font-meta: 'Inter', sans-serif;
 
     /* Spacing & Layout */
     --spacing-unit: 8px;
@@ -420,7 +420,7 @@ footer {
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     text-decoration: none;
     color: var(--obsidian);
     padding-bottom: 5px;
