@@ -199,7 +199,12 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
 
                 document.title = `${data.personal_brand.name} | ${data.personal_brand.tagline}`;
                 document.getElementById('nav-brand-name').textContent = data.personal_brand.name;
-                document.getElementById('brand-tagline').textContent = data.personal_brand.tagline;
+
+                const taglineEl = document.getElementById('brand-tagline');
+                if (taglineEl) {
+                    taglineEl.textContent = data.personal_brand.tagline;
+                }
+
                 document.getElementById('brand-bio').textContent = data.personal_brand.bio;
 
                 if (data.philosophy) {

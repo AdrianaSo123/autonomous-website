@@ -1,22 +1,22 @@
-/* Typography: High-contrast Serif + clean Sans */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap');
+/* Typography: Geometric Sans (Outfit) + Reading Sans (Inter) + Meta (JetBrains) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Color Palette - Fortune 500 Obsidian Strategy */
+    /* Color Palette - Premium AI Toolkit */
     --obsidian: #0A0A0A;
     --midnight: #171717;
-    --bg-color: #FDFBF7;
-    /* Warm Paper */
+    --bg-color: #FFFFFF;
+    /* Crisp Tech White */
     --text-primary: var(--obsidian);
-    --text-secondary: #57554F;
+    --text-secondary: #575757;
     --accent-color: var(--obsidian);
-    --border-color: #E2DDD5;
-    --surface-glass: rgba(253, 251, 247, 0.85);
+    --border-color: #E2E2E2;
+    --surface-glass: rgba(255, 255, 255, 0.85);
 
     /* Typography Scale (Fluid) */
-    --font-heading: 'Playfair Display', serif;
-    --font-body: 'Lora', serif;
-    --font-meta: 'Inter', sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-meta: 'JetBrains Mono', monospace;
 
     /* Spacing & Layout */
     --spacing-unit: 8px;
@@ -80,17 +80,24 @@ section {
     }
 }
 
-/* Geometric Obsidian Orb (Anchor) */
+/* Geometric AI Nexus (Anchor) */
 .hero-visual-anchor {
     width: 100%;
     aspect-ratio: 1 / 1;
-    background: linear-gradient(135deg, var(--obsidian) 0%, #2A2A2A 100%);
+    /* Mesh gradient representing complex AI systems */
+    background: radial-gradient(circle at top left, rgba(160, 160, 160, 0.1), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(10, 10, 10, 0.05), transparent 60%),
+        linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%);
     border-radius: 50%;
     position: relative;
     overflow: hidden;
     max-width: 400px;
     margin: 0 auto;
-    box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.5), inset 20px 20px 40px rgba(255, 255, 255, 0.05);
+    box-shadow:
+        inset -15px -15px 30px rgba(0, 0, 0, 0.05),
+        inset 15px 15px 30px rgba(255, 255, 255, 0.8),
+        0 10px 40px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .narrative-hero {
@@ -140,11 +147,13 @@ h4 {
 
 /* Hero Typographic Lockup */
 h1 {
-    font-size: clamp(3.5rem, 8vw, 6.5rem);
-    letter-spacing: -0.04em;
+    font-size: clamp(3.2rem, 8vw, 6rem);
+    letter-spacing: -0.03em;
+    font-weight: 700;
     margin-bottom: calc(var(--spacing-unit) * 3);
-    line-height: 0.95;
-    text-transform: uppercase;
+    line-height: 1;
+    text-transform: none;
+    /* Let the geometric font speak for itself */
 }
 
 .h1-accent {
@@ -461,7 +470,8 @@ footer {
     font-size: 0.75rem;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
+    /* Tighter for monospace */
 }
 
 .compact-post-content h3 {
