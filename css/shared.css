@@ -1,28 +1,33 @@
-/* Typography: Premium 2-Font System (Outfit + Inter) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+/* Typography: Dense, Interface Neo-Grotesque (Vercel/Linear style) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Color Palette - Premium AI Toolkit */
-    --obsidian: #0A0A0A;
-    --midnight: #171717;
+    /* Color Palette - Pure Interface */
+    --obsidian: #000000;
+    /* Pure black for high contrast */
+    --midnight: #111111;
     --bg-color: #FFFFFF;
-    /* Crisp Tech White */
+    /* Pure white */
     --text-primary: var(--obsidian);
-    --text-secondary: #575757;
+    --text-secondary: #666666;
+    /* Crisp dark grey for readability */
     --accent-color: var(--obsidian);
-    --border-color: #E2E2E2;
-    --surface-glass: rgba(255, 255, 255, 0.85);
+    --border-color: #EAEAEA;
+    /* Hairline borders */
+    --surface-glass: rgba(255, 255, 255, 0.9);
 
-    /* Typography Scale (Strict 2-Font System) */
-    --font-heading: 'Outfit', sans-serif;
+    /* Typography Scale (Pure Inter) */
+    --font-heading: 'Inter', sans-serif;
     --font-body: 'Inter', sans-serif;
     --font-meta: 'Inter', sans-serif;
 
-    /* Spacing & Layout */
+    /* Spacing & Layout Constraints (Hyper-dense) */
     --spacing-unit: 8px;
-    --section-spacing: clamp(100px, 15vh, 180px);
-    --container-max: 1100px;
-    --content-max: 680px;
+    --section-spacing: clamp(64px, 10vh, 80px);
+    /* Massive reduction */
+    --container-max: 980px;
+    /* Tighter reading column */
+    --content-max: 640px;
     /* Optimized reading width */
 
     --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -38,7 +43,8 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     font-family: var(--font-body);
-    line-height: clamp(1.7, 5vw, 1.85);
+    line-height: 1.5;
+    /* Structured density */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -70,13 +76,14 @@ section {
 .hero-split {
     display: grid;
     grid-template-columns: 1fr;
-    gap: calc(var(--spacing-unit) * 8);
+    gap: calc(var(--spacing-unit) * 4);
+    /* Tighter grid */
     align-items: center;
 }
 
 @media (min-width: 900px) {
     .hero-split {
-        grid-template-columns: 1fr 1.2fr;
+        grid-template-columns: 1fr;
     }
 }
 
@@ -140,20 +147,21 @@ h2,
 h3,
 h4 {
     font-family: var(--font-heading);
-    font-weight: 400;
+    font-weight: 700;
     color: var(--obsidian);
     line-height: 1.1;
+    letter-spacing: -0.02em;
 }
 
 /* Hero Typographic Lockup */
 h1 {
-    font-size: clamp(3.2rem, 8vw, 6rem);
-    letter-spacing: -0.03em;
-    font-weight: 700;
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    line-height: 1;
-    text-transform: none;
-    /* Let the geometric font speak for itself */
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    /* SaaS Controlled scale */
+    letter-spacing: -0.04em;
+    font-weight: 800;
+    /* Vercel punchiness */
+    margin-bottom: calc(var(--spacing-unit) * 2);
+    line-height: 1.05;
 }
 
 .h1-accent {
@@ -168,7 +176,7 @@ h2 {
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--text-secondary);
-    margin-bottom: calc(var(--spacing-unit) * 8);
+    margin-bottom: calc(var(--spacing-unit) * 4);
     display: flex;
     align-items: center;
     gap: 20px;
@@ -182,24 +190,26 @@ h2::after {
 }
 
 h3 {
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
-    margin-bottom: calc(var(--spacing-unit) * 3);
+    font-size: 1.125rem;
+    /* UI Component scale */
+    font-weight: 600;
+    margin-bottom: calc(var(--spacing-unit) * 1);
     letter-spacing: -0.01em;
 }
 
 p {
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    font-size: 1rem;
+    /* Developer density */
     color: var(--text-secondary);
-    margin-bottom: calc(var(--spacing-unit) * 4);
+    margin-bottom: calc(var(--spacing-unit) * 3);
     max-width: var(--content-max);
 }
 
 .section-intro {
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-size: 1.125rem;
     line-height: 1.5;
     color: var(--obsidian);
-    margin-bottom: calc(var(--spacing-unit) * 10);
-    font-style: italic;
+    margin-bottom: calc(var(--spacing-unit) * 4);
     max-width: var(--content-max);
 }
 
@@ -441,8 +451,9 @@ footer {
 
 .compact-post-item {
     border: 1px solid var(--border-color);
-    padding: calc(var(--spacing-unit) * 4);
-    border-radius: 12px;
+    padding: calc(var(--spacing-unit) * 2.5);
+    /* Tighter padding */
+    border-radius: 6px;
     transition: var(--transition-smooth);
     background: var(--bg-color);
     text-decoration: none;
@@ -451,9 +462,12 @@ footer {
 }
 
 .compact-post-item:hover {
-    border-color: var(--obsidian);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    border-color: #D0D0D0;
+    /* Sharper line */
+    background: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    /* Vercel micro-shadow */
 }
 
 .compact-post-header {
@@ -475,16 +489,20 @@ footer {
 }
 
 .compact-post-content h3 {
-    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-size: 1.125rem;
+    /* 18px */
     margin-bottom: 0;
+    font-weight: 600;
     color: var(--obsidian);
 }
 
 .post-summary {
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    /* 15px */
+    line-height: 1.5;
     margin-bottom: 0;
     color: var(--text-secondary);
-    max-width: 90%;
+    max-width: 100%;
 }
 
 /* Pill Links */
@@ -492,24 +510,26 @@ footer {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 20px;
+    padding: 6px 14px;
+    /* Dense UI padding */
     border: 1px solid var(--border-color);
-    border-radius: 40px;
-    font-family: var(--font-meta);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    border-radius: 4px;
+    /* Sharper SaaS corners instead of full pill */
+    font-family: var(--font-body);
+    font-size: 13px;
+    /* 13px app standard */
+    font-weight: 500;
     color: var(--obsidian);
     text-decoration: none;
     transition: var(--transition-smooth);
-    background: transparent;
+    background: var(--bg-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .pill-link:hover {
-    border-color: var(--obsidian);
-    background: var(--obsidian);
-    color: var(--bg-color);
+    border-color: #CCCCCC;
+    background: #F9F9F9;
+    color: var(--obsidian);
 }
 
 /* Post Content Styles */
