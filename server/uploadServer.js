@@ -185,7 +185,7 @@ The blog post must strictly follow this exact markdown format, including the fro
 ---
 title: The Perfect Post Title
 tags: ["tag1","tag2"]
----------------------
+---
 
 Markdown body text here. Make it readable, use headers if appropriate, and maintain the original message.
 
@@ -210,7 +210,7 @@ Raw Transcript:
 
         // 3. Extract Metadata from the generated markdown
         // Use regex to locate the frontmatter section.
-        const frontmatterMatch = generatedContentRaw.match(/^---\n([\s\S]*?)\n---------------------/m);
+        const frontmatterMatch = generatedContentRaw.match(/^---(?:[\r\n]+)([\s\S]*?)(?:[\r\n]+)---/m);
 
         if (!frontmatterMatch) {
             throw new Error("Generated content did not match expected frontmatter format.");
@@ -254,6 +254,7 @@ Raw Transcript:
                     .toLowerCase()
                     .replace(/[^a-z0-9\s-]/g, '')
                     .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
             );
         }
 
@@ -269,13 +270,9 @@ slug: ${metadata.slug}
 tags: ${JSON.stringify(metadata.tags)}
 ---`;
 
-        const endIdx = generatedContentRaw.indexOf('---------------------');
-        if (endIdx === -1) {
-            throw new Error("Could not reliably reconstruct markdown. Check generated output format.");
-        }
+        const contentBody = generatedContentRaw.replace(/^---(?:[\r\n]+)[\s\S]*?(?:[\r\n]+)---/, '').trim();
 
-        const contentBody = generatedContentRaw.substring(endIdx + '---------------------'.length);
-        const generatedContent = newFrontmatter + contentBody;
+        const generatedContent = `${newFrontmatter}\n\n${contentBody}\n`;
 
         // 4. Update the local file system (so that the server is in sync, though we will push to github via api)
         const newMarkdownPath = path.join(POSTS_DIR, `${metadata.slug}.md`);

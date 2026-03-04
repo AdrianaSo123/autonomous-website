@@ -66,7 +66,7 @@
                 }
 
                 // Verify metadata 
-                const indexRes = await fetch('posts/index.json');
+                const indexRes = await fetch('/posts/index.json');
                 if (!indexRes.ok) throw new Error('Failed to load posts index');
                 const posts = await indexRes.json();
 
@@ -78,7 +78,7 @@
                 document.title = `${postMeta.title} | Journal`;
 
                 // Fetch actual markdown text file
-                const mdRes = await fetch(`posts/${slug}.md`);
+                const mdRes = await fetch(`/posts/${slug}.md`);
                 if (!mdRes.ok) throw new Error('Failed to load markdown content');
                 const markdown = await mdRes.text();
 
