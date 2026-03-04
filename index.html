@@ -4,31 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strategic AI Intelligence</title>
+    <title>Adriana So | Strategic AI Intelligence</title>
     <link rel="stylesheet" href="css/shared.css">
 </head>
 
 <body>
 
     <nav>
-        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
-        <div class="nav-links">
-            <a href="services.html">Services</a>
-            <a href="works.html">Works</a>
-            <a href="blog.html">Blog</a>
-            <a href="contact.html">Contact</a>
+        <div class="container">
+            <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+            <div class="nav-links">
+                <a href="services.html">Services</a>
+                <a href="works.html">Works</a>
+                <a href="blog.html">Blog</a>
+                <a href="contact.html">Contact</a>
+            </div>
         </div>
     </nav>
 
     <div class="container">
         <!-- Hero Section -->
         <main class="hero fade-in">
-            <h1 id="brand-tagline" class="hero-tagline" style="font-size: clamp(3.5rem, 8vw, 6rem); max-width: 14ch;">
-                Loading...</h1>
-            <p id="brand-bio" class="hero-bio"></p>
-            <div class="hero-cta">
+            <h1 id="brand-tagline" class="fade-in" data-delay="1">Loading...</h1>
+            <p id="brand-bio" class="fade-in" data-delay="2"></p>
+            <div class="hero-cta fade-in" data-delay="3">
                 <a href="contact.html" class="btn">Let's Talk</a>
-                <a href="services.html" class="btn-secondary">View Services</a>
+                <a href="services.html" class="btn-secondary">Explore Capabilities</a>
             </div>
         </main>
 
@@ -39,27 +40,26 @@
                 <!-- Injected Services (Limited) -->
             </div>
             <div class="section-footer">
-                <a href="services.html" class="view-all">All Services →</a>
+                <a href="services.html" class="view-all">All Capabilities →</a>
             </div>
         </section>
 
-        <!-- Works Preview Section -->
+        <!-- Selected Works / Systems Section -->
         <section id="works-preview" class="fade-in">
             <h2>Systems</h2>
             <div id="works-grid" class="grid-2col">
                 <!-- Injected Works (Limited) -->
             </div>
             <div class="section-footer">
-                <a href="works.html" class="view-all">View All Works →</a>
+                <a href="works.html" class="view-all">Full Portfolio →</a>
             </div>
         </section>
 
         <!-- Philosophy Section -->
         <section id="philosophy-section" class="fade-in">
-            <h2>Philosophy</h2>
-            <div class="philosophy-content">
-                <h3 id="philosophy-title"></h3>
-                <p id="philosophy-text"></p>
+            <div class="philosophy-panel">
+                <h2>Philosophy</h2>
+                <p id="philosophy-text">Loading principle...</p>
             </div>
         </section>
 
@@ -77,14 +77,12 @@
     </div>
 
     <script type="module">
-        import { setupAnimations } from './js/app.js';
+        import { setupAnimations, loadBrandData } from './js/app.js';
 
-        // Data Fetching and Hydration
         async function loadContent() {
             try {
-                const response = await fetch('content.json');
-                if (!response.ok) throw new Error('Failed to load content');
-                const data = await response.json();
+                const data = await loadBrandData();
+                if (!data) throw new Error('Failed to load content');
 
                 // document title & Nav
                 document.title = `${data.personal_brand.name} | ${data.personal_brand.tagline}`;
@@ -100,8 +98,10 @@
                     const el = document.createElement('div');
                     el.className = 'service-card';
                     el.innerHTML = `
-                        <h3>${service.title}</h3>
-                        <p>${service.description}</p>
+                        <div>
+                            <h3>${service.title}</h3>
+                            <p>${service.description}</p>
+                        </div>
                     `;
                     servicesGrid.appendChild(el);
                 });
@@ -120,7 +120,6 @@
 
                 // Philosophy Content
                 if (data.philosophy) {
-                    document.getElementById('philosophy-title').textContent = data.philosophy.title;
                     document.getElementById('philosophy-text').textContent = data.philosophy.content;
                 }
 

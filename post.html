@@ -14,12 +14,14 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
-        <div class="nav-links">
-            <a href="services.html">Services</a>
-            <a href="works.html">Works</a>
-            <a href="blog.html" class="active">Blog</a>
-            <a href="contact.html">Contact</a>
+        <div class="container">
+            <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
+            <div class="nav-links">
+                <a href="services.html">Services</a>
+                <a href="works.html">Works</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="contact.html">Contact</a>
+            </div>
         </div>
     </nav>
 
@@ -37,14 +39,7 @@
     </div>
 
     <script type="module">
-        import { loadBrandData, stripFrontmatter } from './js/app.js';
-
-        // Apply fade-in
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-            }, 100);
-        });
+        import { loadBrandData, stripFrontmatter, setupAnimations } from './js/app.js';
 
         // Use marked safely
         marked.setOptions({
@@ -86,7 +81,7 @@
                 const mdContent = stripFrontmatter(markdown);
 
                 // Hydrate
-                const htmlContent = marked.parse(mdContent);
+                const htmlContent = DOMPurify.sanitize(marked.parse(mdContent));
                 const tagsHtml = postMeta.tags && postMeta.tags.length > 0
                     ? `<div class="post-tags">${postMeta.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>`
                     : '';
@@ -100,16 +95,20 @@
                             ${tagsHtml}
                         </div>
                     </header>
+
                     <div class="post-body-content">
                         ${htmlContent}
                     </div>
                 `;
 
+                setupAnimations(true);
+
             } catch (error) {
                 console.error('Failed to load post:', error);
                 document.getElementById('post-content').innerHTML = `
-                    <h1>Post Cannot be Found</h1>
-                    <p>The perspective you are looking for has been moved, removed, or the link is invalid.</p>
+                    <h1>Perspective Missing</h1>
+                    <p>${error.message}</p>
+                    <a href="blog.html" class="btn">Back to Journal</a>
                 `;
             }
         }
