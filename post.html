@@ -59,7 +59,7 @@
 
                 // Identify slug requirement
                 const params = new URLSearchParams(window.location.search);
-                const slug = params.get('slug');
+                const slug = params.get('slug')?.trim();
 
                 if (!slug) {
                     throw new Error('No post slug provided in URL');
