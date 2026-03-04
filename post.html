@@ -32,8 +32,7 @@
         <a href="blog.html" class="back-link">← Back to Journal</a>
 
         <article id="post-content">
-            <h1 id="post-title">Loading...</h1>
-            <div id="post-body"></div>
+            <h1>Loading...</h1>
         </article>
 
         <footer>
@@ -44,9 +43,14 @@
 
     <script type="module">
 
-        import { loadBrandData, stripFrontmatter, getBasePath } from './js/app.js';
+        import { loadBrandData, getBasePath } from './js/app.js';
 
         const base = getBasePath();
+
+        marked.setOptions({
+            headerIds: false,
+            mangle: false
+        });
 
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -55,10 +59,20 @@
             }, 100);
         });
 
-        marked.setOptions({
-            headerIds: false,
-            mangle: false
-        });
+        function stripFrontmatter(markdown) {
+
+            if (!markdown.startsWith('---')) {
+                return markdown;
+            }
+
+            const parts = markdown.split('---');
+
+            if (parts.length >= 3) {
+                return parts.slice(2).join('---').trim();
+            }
+
+            return markdown;
+        }
 
         async function loadPost() {
 
@@ -67,13 +81,15 @@
                 await loadBrandData();
 
                 const params = new URLSearchParams(window.location.search);
-                const slug = params.get('slug')?.trim();
+                const slug = decodeURIComponent(params.get('slug') || '').trim();
+
+                console.log("Slug:", slug);
 
                 if (!slug) {
                     throw new Error("No post slug provided");
                 }
 
-                const indexRes = await fetch(`${base}/posts/index.json`);
+                const indexRes = await fetch(`${base}/posts/index.json`, { cache: "no-store" });
 
                 if (!indexRes.ok) {
                     throw new Error("Failed to load posts index");
@@ -89,7 +105,11 @@
 
                 document.title = `${postMeta.title} | Journal`;
 
-                const mdRes = await fetch(`${base}/posts/${slug}.md`);
+                const mdUrl = `${base}/posts/${slug}.md`;
+
+                console.log("Fetching markdown:", mdUrl);
+
+                const mdRes = await fetch(mdUrl, { cache: "no-store" });
 
                 if (!mdRes.ok) {
                     throw new Error("Markdown file not found");
@@ -112,29 +132,32 @@
                 const container = document.getElementById("post-content");
 
                 container.innerHTML = `
-                    <header class="post-header">
-                        <h1>${postMeta.title}</h1>
-                        <div class="post-meta">
-                            <span>${postMeta.date}</span>
-                            ${tagsHtml}
-                        </div>
-                    </header>
+        <header class="post-header">
+            <h1>${postMeta.title}</h1>
+            <div class="post-meta">
+                <span>${postMeta.date}</span>
+                ${tagsHtml}
+            </div>
+        </header>
 
-                    <div class="post-body-content">
-                        ${htmlContent}
-                    </div>
-                `;
+        <div class="post-body-content">
+            ${htmlContent}
+        </div>
+        `;
 
             }
+
             catch (error) {
 
                 console.error("Failed to load post:", error);
 
                 document.getElementById("post-content").innerHTML = `
-                    <h1>Post Cannot be Found</h1>
-                    <p>The perspective you are looking for has been moved, removed, or the link is invalid.</p>
-                `;
+        <h1>Post Cannot be Found</h1>
+        <p>${error.message}</p>
+        <p>The perspective you are looking for may have been moved or the link is invalid.</p>
+        `;
             }
+
         }
 
         document.addEventListener("DOMContentLoaded", loadPost);
