@@ -151,20 +151,22 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
     <div class="container container-narrow">
 
         <!-- Narrative Profile Section -->
-        <main class="hero-centered fade-in">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    Systemic<br>
-                    <span class="hero-ai">AI</span><br>
-                    <span class="h1-accent">Design</span>
+        <main class="hero-split narrative-hero">
+            <div class="narrative-header fade-in" data-delay="1">
+                <h1 class="staggered-title">
+                    <span class="h1-start">Systemic</span><br>
+                    <span class="h1-middle">AI</span><br>
+                    <span class="h1-end h1-accent">Design</span>
                 </h1>
+            </div>
 
-                <div class="bio-container">
-                    <div class="bio-pill">INTELLIGENCE ARCHITECT</div>
-                    <p id="brand-bio" class="lead-paragraph"></p>
-                    <p id="philosophy-text"></p>
+            <div class="narrative-bio fade-in" data-delay="2">
+                <div class="bio-container" style="align-items: flex-start; margin: 0; text-align: left;">
+                    <div class="bio-pill" style="margin-left: 0;">INTELLIGENCE ARCHITECT</div>
+                    <p id="brand-bio" class="lead-paragraph" style="text-align: left;"></p>
+                    <p id="philosophy-text" style="text-align: left;"></p>
 
-                    <div class="inline-contact">
+                    <div class="inline-contact" style="align-items: flex-start;">
                         <span class="contact-label">Find me elsewhere:</span>
                         <div class="contact-buttons">
                             <a href="mailto:hello@adrianaso.com" class="pill-link">Email</a>
