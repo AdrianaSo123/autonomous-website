@@ -70,8 +70,8 @@ section {
     display: grid;
     grid-template-columns: 1fr;
     gap: calc(var(--spacing-unit) * 6);
-    align-items: end;
-    /* Bottom align for artistic tension */
+    align-items: center;
+    /* Center align for normal layout, 'end' created a huge gap */
 }
 
 @media (min-width: 900px) {
@@ -154,10 +154,20 @@ h4 {
     letter-spacing: -0.02em;
 }
 
-/* Hero Typographic Lockup */
+/* Default Typography Lockup */
 h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    /* Standard, elegant scale for blog posts */
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    line-height: 1.1;
+}
+
+/* Specific Hero Scale */
+.narrative-header h1 {
     font-size: clamp(3.5rem, 8vw, 7rem);
-    /* Sweeping, commanding scale */
+    /* Sweeping, commanding scale strictly for the hero site title */
     letter-spacing: -0.03em;
     font-weight: 400;
     /* Elegant, not heavy */
