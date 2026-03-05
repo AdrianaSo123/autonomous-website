@@ -24,12 +24,12 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container container-narrow">
         <!-- Selected Works / Systems Section -->
         <section id="works-section" class="fade-in">
             <h2>Systems</h2>
             <p class="section-intro">A curated portfolio of deterministic AI systems and architectural deployments.</p>
-            <div id="works-grid" class="grid-2col">
+            <div id="works-grid" class="compact-post-list">
                 <!-- Injected Works -->
                 <p>Loading portfolio...</p>
             </div>
@@ -60,17 +60,24 @@
                 const worksGrid = document.getElementById('works-grid');
                 worksGrid.innerHTML = '';
 
-                data.selected_works.forEach(work => {
-                    const el = document.createElement('div');
-                    el.className = 'work-card';
+                data.selected_works.forEach((work, index) => {
+                    const el = document.createElement('a');
+                    el.href = work.link;
+                    el.target = "_blank";
+                    el.rel = "noopener noreferrer";
+                    el.className = 'compact-post-item fade-in';
+                    el.dataset.delay = (index % 5) + 1;
+
                     el.innerHTML = `
-                        <h3>
-                            <a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title} <span class="external-icon">↗</span></a>
-                        </h3>
-                        <p>${work.description}</p>
+                        <div class="compact-post-header">
+                            <div class="compact-post-content">
+                                <h3>${work.title} <span class="external-icon" style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 6px;">↗</span></h3>
+                            </div>
+                        </div>
+                        <p class="post-summary">${work.description}</p>
                         ${work.github ? `
-                        <div style="margin-top: 12px;">
-                            <a href="${work.github}" target="_blank" rel="noopener noreferrer" class="pill-link" style="font-size: 0.75rem; padding: 4px 12px; border-color: var(--border-color); color: var(--text-secondary);">View Source Code ↗</a>
+                        <div style="margin-top: 16px; position: relative; z-index: 2;">
+                            <object><a href="${work.github}" target="_blank" rel="noopener noreferrer" class="pill-link" style="font-size: 0.75rem; padding: 6px 14px;">View Source Code ↗</a></object>
                         </div>` : ''}
                     `;
                     worksGrid.appendChild(el);
