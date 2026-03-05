@@ -91,19 +91,26 @@ section {
 }
 
 .bio-container {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 540px;
+    /* Slightly tighter reading measure */
+    margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 20px;
+    /* Single source of truth for white space */
 }
 
 .inline-contact {
-    margin-top: 32px;
+    margin-top: 8px;
+    /* Tighter bump */
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    flex-direction: row;
+    /* Fix strict vertical stacking */
+    gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
+    /* Prevent overflow on very tight screens */
 }
 
 .contact-label {
@@ -154,6 +161,8 @@ section {
     font-weight: 400;
     line-height: 1.6;
     color: var(--obsidian);
+    margin: 0;
+    /* Remove default browser spacing to eliminate extra white spaces */
 }
 
 .lead-paragraph {
