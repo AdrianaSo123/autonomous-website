@@ -22,7 +22,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container container-narrow">
         <!-- Contact Section -->
         <section id="contact-section" class="fade-in">
             <h2>Contact</h2>
@@ -58,15 +58,20 @@
 
                 const contactLinks = document.getElementById('contact-links');
                 contactLinks.innerHTML = '';
+                contactLinks.style.display = 'flex';
+                contactLinks.style.flexWrap = 'wrap';
+                contactLinks.style.gap = '15px';
+                contactLinks.style.marginTop = '20px';
 
                 data.connect_links.forEach(link => {
                     const el = document.createElement('a');
                     el.href = link.url;
+                    el.className = 'pill-link';
 
                     if (!link.url.startsWith('mailto')) {
                         el.target = "_blank";
                         el.rel = "noopener noreferrer";
-                        el.innerHTML = `${link.platform}<span class="external-icon">↗</span>`;
+                        el.innerHTML = `${link.platform}<span class="external-icon" style="margin-left: 6px;">↗</span>`;
                     } else {
                         el.textContent = link.platform;
                     }
