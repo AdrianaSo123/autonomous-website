@@ -8,6 +8,8 @@
         content="Portfolio of strategic AI integrations and design engineering works by Adriana So.">
     <title>Works - Strategic AI Intelligence</title>
     <link rel="stylesheet" href="css/shared.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module" src="js/auth.js"></script>
 </head>
 
 <body>
@@ -15,11 +17,15 @@
     <nav>
         <div class="container">
             <a href="index.html" class="nav-brand" id="nav-brand-name">Adriana So</a>
-            <div class="nav-links">
-                <a href="services.html">Services</a>
-                <a href="works.html" class="active">Works</a>
-                <a href="blog.html">Blog</a>
-                <a href="contact.html">Contact</a>
+            <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+                <div class="nav-links">
+                    <a href="services.html">Services</a>
+                    <a href="works.html" class="active">Works</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+                <div id="auth-container" class="auth-wrapper"
+                    style="min-width: 120px; display: flex; justify-content: flex-end;"></div>
             </div>
         </div>
     </nav>
