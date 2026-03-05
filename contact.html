@@ -28,9 +28,46 @@
             <h2>Contact</h2>
             <p class="section-intro">For inquiries regarding systemic integration and agentic architectural advisory.
             </p>
-            <div id="contact-links" class="contact-links">
-                <!-- Injected Links -->
-                <p>Establishing connection...</p>
+            <div class="contact-form-wrapper">
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Jane Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="jane@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="" disabled selected>Select an inquiry type</option>
+                            <option value="advisory">Architectural Advisory</option>
+                            <option value="integration">Systemic Integration</option>
+                            <option value="speaking">Speaking / Press</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required
+                            placeholder="How can I help you?"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit">Send Inquiry</button>
+                    <p id="form-status" class="form-status" style="display: none;"></p>
+                </form>
+
+                <div class="secondary-contact">
+                    <p class="contact-label">Alternative channels:</p>
+                    <div id="contact-links" class="contact-links"
+                        style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -56,12 +93,36 @@
                     document.title = `Contact | ${data.personal_brand.name}`;
                 }
 
+                // Handle Form submission
+                const form = document.getElementById('contact-form');
+                const formStatus = document.getElementById('form-status');
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // In a real app, this would POST to an endpoint.
+                    // For now, simulate success.
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = 'Sending...';
+                    submitBtn.disabled = true;
+
+                    setTimeout(() => {
+                        formStatus.textContent = 'Inquiry received. I will be in touch shortly.';
+                        formStatus.className = 'form-status success';
+                        formStatus.style.display = 'block';
+                        form.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+
+                        setTimeout(() => {
+                            formStatus.style.display = 'none';
+                        }, 5000);
+                    }, 1000);
+                });
+
+                // Inject alternative links below form
                 const contactLinks = document.getElementById('contact-links');
                 contactLinks.innerHTML = '';
-                contactLinks.style.display = 'flex';
-                contactLinks.style.flexWrap = 'wrap';
-                contactLinks.style.gap = '15px';
-                contactLinks.style.marginTop = '20px';
 
                 data.connect_links.forEach(link => {
                     const el = document.createElement('a');

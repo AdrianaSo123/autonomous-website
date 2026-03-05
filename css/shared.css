@@ -624,6 +624,94 @@ footer {
     box-shadow: 0 4px 12px rgba(10, 10, 10, 0.1);
 }
 
+/* Contact Form Styling */
+.contact-form-wrapper {
+    margin-top: calc(var(--spacing-unit) * 4);
+    max-width: 100%;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 6);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit));
+}
+
+.contact-form label {
+    font-family: var(--font-meta);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 16px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--obsidian);
+    background: var(--surface-glass);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    /* Slight softening, mostly sharp */
+    transition: var(--transition-smooth);
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--obsidian);
+    box-shadow: 0 0 0 1px var(--obsidian);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #A0A0A0;
+    /* Light elegant grey */
+}
+
+/* Specific button styling to align with form */
+.btn-submit {
+    margin-top: calc(var(--spacing-unit) * 2);
+    align-self: flex-start;
+    border-radius: 4px;
+    /* Match form inputs */
+    padding: 16px 32px;
+    cursor: pointer;
+}
+
+.form-status {
+    margin-top: calc(var(--spacing-unit) * 2);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+}
+
+.form-status.success {
+    color: #2F8A4B;
+    /* Muted elegant green */
+    border-left: 3px solid #2F8A4B;
+    padding-left: 12px;
+}
+
+/* Secondary Contact Links Section */
+.secondary-contact {
+    border-top: 1px solid var(--border-color);
+    padding-top: calc(var(--spacing-unit) * 4);
+    margin-top: calc(var(--spacing-unit) * 4);
+}
+
+
 /* Post Content Styles */
 .post-header {
     margin-bottom: 80px;
