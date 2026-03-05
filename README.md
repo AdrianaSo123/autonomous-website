@@ -1,67 +1,69 @@
-# Autonomous GitHub-Native AI Portfolio
+# Autonomous AI Portfolio & Blog
 
-A fully autonomous, zero-maintenance portfolio system that deploys on GitHub Pages and updates via GitHub Actions using structured AI output with strict schema validation. No backend, no databases, just pure GitHub-native automation.
+A fully autonomous, zero-maintenance personal portfolio and blog system. The frontend is a static web app hosted on GitHub Pages, while the backend logic uses AI to automatically generate and publish content. 
+
+There are no databases and no heavy frontend frameworks—just pure Vanilla HTML/JS, GitHub-native automation, and OpenAI integration.
 
 ## Features
-- **Headless CMS via JSON**: All content is sourced from a single `content.json` file.
-- **Strict Schema Validation**: A robust JSON schema (`schema.json`) guarantees the AI cannot break the UI.
-- **Automated Updates**: Trigger website updates simply by providing a text instruction.
-- **No Dependencies**: Frontend is purely HTML/Vanilla JS with a minimal minimalist/brutalist design. 
+
+- **Static Vanilla Frontend**: Fast, dependency-free frontend using HTML, CSS, and minimal vanilla JavaScript. No React, Next.js, or Vue.
+- **Client-Side Markdown Blog**: A dynamic front-end pipeline that loads and renders Markdown files (`posts/*.md`) seamlessly without a backend router.
+- **Voice-to-Blog Automation Server**: A lightweight Node.js Express server (`server/uploadServer.js`) that accepts audio recordings, transcribes them using OpenAI Whisper, formats them into a Markdown post using GPT-4o, and directly commits them to this GitHub repository.
+- **Headless CMS via JSON**: Portfolio content is sourced from a single `content.json` file.
+- **AI-Driven UI Updates**: Trigger portfolio updates simply by providing a text instruction via a GitHub Actions workflow, which uses OpenAI to rewrite `content.json` against a strict JSON schema (`schema.json`).
+
+---
+
+## Architecture Details
+
+### The Frontend (Static Site)
+- `index.html`, `blog.html`, `works.html`, `services.html`, `contact.html`: The core pages of the site.
+- `post.html`: Dynamically fetches and renders individual Markdown blog posts based on the requested URL.
+- Uses `posts/index.json` to fetch the list of available posts to render in the blog sections.
+
+### The Backend (Audio-to-Post Server)
+Located in the `server/` directory, this Node/Express service allows on-the-fly blog publishing:
+1. **Transcribe**: Converts a multipart form audio upload to text using OpenAI Whisper.
+2. **Format**: Uses GPT-4o to transform the transcript into a well-structured Markdown blog post with accurate YAML frontmatter.
+3. **Publish**: Appends the new `.md` file directly to the GitHub repository's `posts/` folder using the GitHub REST API. This triggers GitHub Pages to effortlessly update the live site.
+
+### The AI Portfolio Updater (GitHub Actions)
+- **`scripts/update.js`**: Node.js script responsible for applying AI-driven modifications to `content.json` without breaking the site structure.
+- **`.github/workflows/update-site.yml`**: A GitHub Action that runs the above script based on a user prompt, and handles committing/pushing the changes back to the `main` branch.
 
 ---
 
 ## Setup Instructions
 
-### 1. Fork the Repository
-Click the "Fork" button in the top right corner of this repository to create your own copy.
+### 1. Prerequisites
+- Node.js uploaded locally.
+- An OpenAI API Key (`OPENAI_API_KEY`).
+- A GitHub Personal Access Token (`GITHUB_TOKEN`) with `repo` permissions to allow the automation server to write to this repository.
 
-### 2. Add Your OpenAI API Key
-We use OpenAI's API to intelligently parse your instructions and rewrite the `content.json` securely.
-1. Go to your repository **Settings**.
-2. Navigate to **Secrets and variables** > **Actions** in the left sidebar.
-3. Click **New repository secret**.
-4. Set the name to `OPENAI_API_KEY`.
-5. Paste your OpenAI API key in the Secret field and save.
-
-### 3. Enable GitHub Pages
-1. Go to repository **Settings**.
-2. Navigate to **Pages** in the left sidebar.
-3. Under **Build and deployment**, select **Deploy from a branch**.
-4. Set the branch to `main` and the folder to `/` (root).
-5. Click **Save**. Within a few minutes, your portfolio will be live!
-
----
-
-## Usage: Trigger Updates
-
-You can update your portfolio in two ways without ever editing HTML or JSON manually.
-
-### Option 1: Via GitHub Actions UI
-1. Go to the **Actions** tab in your repository.
-2. Select **Update Portfolio Site** from the left sidebar.
-3. Click **Run workflow**.
-4. Enter your instruction (e.g., `"Change my tagline to 'Full Stack AI Dev'"` or `"Add a new project about an AI discord bot"`).
-5. Run the workflow. Once completed, your live site will update.
-
-### Option 2: Via GitHub CLI (Terminal)
-The fastest way for developers to update their portfolio:
+### 2. Running the Audio-to-Blog Server Locally
 ```bash
-gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting service"
+cd server
+npm install
+```
+Create a `.env` file inside the `server/` directory:
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+GITHUB_TOKEN=your_github_token_here
+GITHUB_REPO=yourusername/autonomous-website
+PORT=3000
+```
+Start the server:
+```bash
+node uploadServer.js
 ```
 
+### 3. Triggering UI Updates via GitHub Actions
+To update your portfolio info via the Actions tab:
+1. Add `OPENAI_API_KEY` to your repository **Settings > Secrets and variables > Actions**.
+2. Go to the **Actions** tab in this repository.
+3. Select the **Update Portfolio Site** workflow and click **Run workflow**.
+4. Pass a command like `"Add a new project explaining my recent voice-to-blog tool"`.
+
 ---
 
-## Architecture details
-
-- **`content.json`**: Acts as the data layer. 
-- **`schema.json`**: Strict definitions of required keys. Rejecting any extra unexpected keys to enforce deterministic UI rendering.
-- **`scripts/update.js`**: Node.js script responsible for:
-  - Calling the OpenAI API with the User Instruction + Current State + Schema.
-  - Enforcing JSON-only output using `gpt-4o` and `response_format`.
-  - Validating the output using `ajv`.
-  - Discarding changes completely (non-zero exit) if validation fails.
-- **`.github/workflows/update-site.yml`**: Triggers the script and handles committing/pushing back to the `main` branch.
-
-**Security**: 
-- `OPENAI_API_KEY` is never logged or exposed in frontend code. 
-- No persistent PAT/access tokens are stored. The automated commit leverages the secure, ephemeral `github-actions[bot]`.
+*(Future Goal: Integrating client-side Google Authentication using Google Identity Services.)*
