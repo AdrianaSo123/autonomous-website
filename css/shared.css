@@ -216,12 +216,12 @@ h1 {
 }
 
 .h1-middle {
-    margin-left: 1.75em;
+    margin-left: 1em;
     /* Mathematical stagger based on typeface width */
 }
 
 .h1-end {
-    margin-left: 3.5em;
+    margin-left: 2em;
     /* Deepest indentation */
 }
 
@@ -544,16 +544,16 @@ footer {
     font-size: 0.85rem;
     color: var(--text-secondary);
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .footer-links {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 24px;
+    flex-direction: row;
+    gap: 24px;
+    margin-bottom: 0;
 }
 
 .footer-links a {
