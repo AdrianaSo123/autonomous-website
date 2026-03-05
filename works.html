@@ -57,8 +57,14 @@
                     const el = document.createElement('div');
                     el.className = 'work-card';
                     el.innerHTML = `
-                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
+                        <h3>
+                            <a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title} <span class="external-icon">↗</span></a>
+                        </h3>
                         <p>${work.description}</p>
+                        ${work.github ? `
+                        <div style="margin-top: 12px;">
+                            <a href="${work.github}" target="_blank" rel="noopener noreferrer" class="pill-link" style="font-size: 0.75rem; padding: 4px 12px; border-color: var(--border-color); color: var(--text-secondary);">View Source Code ↗</a>
+                        </div>` : ''}
                     `;
                     worksGrid.appendChild(el);
                 });

@@ -49,17 +49,17 @@
             </div>
         </main>
 
-        <!-- Recent Perspectives feed -->
-        <section id="recent-posts-section" class="fade-in">
-            <h2>Recent Perspectives</h2>
+        <!-- Featured Works feed -->
+        <section id="works-section" class="fade-in">
+            <h2>Featured Systems</h2>
 
-            <div id="recent-posts-container" class="compact-post-list">
-                <!-- Injected Posts -->
-                <p>Loading journal...</p>
+            <div id="featured-works-container" class="compact-post-list">
+                <!-- Injected Works -->
+                <p>Loading systems...</p>
             </div>
 
             <div class="section-footer">
-                <a href="blog.html" class="pill-link" style="margin-top: 20px;">View All Perspectives →</a>
+                <a href="works.html" class="pill-link" style="margin-top: 20px;">View All Systems →</a>
             </div>
         </section>
 
@@ -91,38 +91,31 @@
                     document.getElementById('philosophy-text').textContent = data.philosophy.content;
                 }
 
-                // 2. Fetch Latest 3 Blog Posts
-                const postsResponse = await fetch('posts/index.json');
-                const container = document.getElementById('recent-posts-container');
+                // 2. Inject Featured Works on Homepage
+                const container = document.getElementById('featured-works-container');
+                container.innerHTML = '';
 
-                if (postsResponse.ok) {
-                    const posts = await postsResponse.json();
-                    container.innerHTML = '';
+                if (data.selected_works && data.selected_works.length > 0) {
+                    const featuredWorks = data.selected_works.slice(0, 3);
 
-                    if (posts.length > 0) {
-                        // Sort newest first, take top 3
-                        const recentPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
-
-                        recentPosts.forEach(post => {
-                            const postEl = document.createElement('a');
-                            postEl.href = `post.html?slug=${post.slug}`;
-                            postEl.className = 'compact-post-item';
-                            postEl.innerHTML = `
-                                <div class="compact-post-header">
-                                    <div class="compact-post-content">
-                                        <h3>${post.title}</h3>
-                                    </div>
-                                    <div class="compact-post-meta">${post.date}</div>
+                    featuredWorks.forEach(work => {
+                        const workEl = document.createElement('a');
+                        workEl.href = work.link;
+                        workEl.target = "_blank";
+                        workEl.rel = "noopener noreferrer";
+                        workEl.className = 'compact-post-item';
+                        workEl.innerHTML = `
+                            <div class="compact-post-header">
+                                <div class="compact-post-content">
+                                    <h3>${work.title} <span class="external-icon" style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 6px;">↗</span></h3>
                                 </div>
-                                ${post.summary ? `<p class="post-summary">${post.summary}</p>` : ''}
-                            `;
-                            container.appendChild(postEl);
-                        });
-                    } else {
-                        container.innerHTML = '<p class="empty-state">No journal entries available yet.</p>';
-                    }
+                            </div>
+                            <p class="post-summary">${work.description}</p>
+                        `;
+                        container.appendChild(workEl);
+                    });
                 } else {
-                    container.innerHTML = '<p class="empty-state">Journal temporarily unavailable.</p>';
+                    container.innerHTML = '<p class="empty-state">Secure systems currently offline.</p>';
                 }
 
                 setupAnimations(true);

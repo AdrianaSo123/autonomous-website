@@ -174,17 +174,17 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
             </div>
         </main>
 
-        <!-- Recent Perspectives feed -->
-        <section id="recent-posts-section" class="fade-in">
-            <h2>Recent Perspectives</h2>
+        <!-- Featured Works feed -->
+        <section id="works-section" class="fade-in">
+            <h2>Featured Systems</h2>
 
-            <div id="recent-posts-container" class="compact-post-list">
-                <!-- Injected Posts -->
-                <p>Loading journal...</p>
+            <div id="featured-works-container" class="compact-post-list">
+                <!-- Injected Works -->
+                <p>Loading systems...</p>
             </div>
 
             <div class="section-footer">
-                <a href="blog.html" class="pill-link" style="margin-top: 20px;">View All Perspectives →</a>
+                <a href="works.html" class="pill-link" style="margin-top: 20px;">View All Systems →</a>
             </div>
         </section>
 
@@ -216,38 +216,31 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
                     document.getElementById('philosophy-text').textContent = data.philosophy.content;
                 }
 
-                // 2. Fetch Latest 3 Blog Posts
-                const postsResponse = await fetch('posts/index.json');
-                const container = document.getElementById('recent-posts-container');
+                // 2. Inject Featured Works on Homepage
+                const container = document.getElementById('featured-works-container');
+                container.innerHTML = '';
 
-                if (postsResponse.ok) {
-                    const posts = await postsResponse.json();
-                    container.innerHTML = '';
+                if (data.selected_works && data.selected_works.length > 0) {
+                    const featuredWorks = data.selected_works.slice(0, 3);
 
-                    if (posts.length > 0) {
-                        // Sort newest first, take top 3
-                        const recentPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
-
-                        recentPosts.forEach(post => {
-                            const postEl = document.createElement('a');
-                            postEl.href = `post.html?slug=${post.slug}`;
-                            postEl.className = 'compact-post-item';
-                            postEl.innerHTML = `
-                                <div class="compact-post-header">
-                                    <div class="compact-post-content">
-                                        <h3>${post.title}</h3>
-                                    </div>
-                                    <div class="compact-post-meta">${post.date}</div>
+                    featuredWorks.forEach(work => {
+                        const workEl = document.createElement('a');
+                        workEl.href = work.link;
+                        workEl.target = "_blank";
+                        workEl.rel = "noopener noreferrer";
+                        workEl.className = 'compact-post-item';
+                        workEl.innerHTML = `
+                            <div class="compact-post-header">
+                                <div class="compact-post-content">
+                                    <h3>${work.title} <span class="external-icon" style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 6px;">↗</span></h3>
                                 </div>
-                                ${post.summary ? `<p class="post-summary">${post.summary}</p>` : ''}
-                            `;
-                            container.appendChild(postEl);
-                        });
-                    } else {
-                        container.innerHTML = '<p class="empty-state">No journal entries available yet.</p>';
-                    }
+                            </div>
+                            <p class="post-summary">${work.description}</p>
+                        `;
+                        container.appendChild(workEl);
+                    });
                 } else {
-                    container.innerHTML = '<p class="empty-state">Journal temporarily unavailable.</p>';
+                    container.innerHTML = '<p class="empty-state">Secure systems currently offline.</p>';
                 }
 
                 setupAnimations(true);
@@ -403,8 +396,14 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
                     const el = document.createElement('div');
                     el.className = 'work-card';
                     el.innerHTML = `
-                        <h3><a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title}<span class="external-icon">↗</span></a></h3>
+                        <h3>
+                            <a href="${work.link}" target="_blank" rel="noopener noreferrer">${work.title} <span class="external-icon">↗</span></a>
+                        </h3>
                         <p>${work.description}</p>
+                        ${work.github ? `
+                        <div style="margin-top: 12px;">
+                            <a href="${work.github}" target="_blank" rel="noopener noreferrer" class="pill-link" style="font-size: 0.75rem; padding: 4px 12px; border-color: var(--border-color); color: var(--text-secondary);">View Source Code ↗</a>
+                        </div>` : ''}
                     `;
                     worksGrid.appendChild(el);
                 });
@@ -1861,14 +1860,16 @@ app.listen(port, () => {
     ],
     "selected_works": [
         {
-            "title": "Autonomous Deployment Framework",
-            "description": "A zero-maintenance, structured JSON CMS driven entirely by GitHub Actions and deterministic AI orchestration.",
-            "link": "#"
+            "title": "Unmuted Shopify Theme",
+            "description": "A high-performance custom e-commerce theme deployed on Shopify. Built for specialized retail performance and seamless headless integrations.",
+            "link": "https://unmuted-shop.myshopify.com",
+            "github": "https://github.com/AdrianaSo123/unmuted-theme"
         },
         {
-            "title": "Enterprise Knowledge Graph Integration",
-            "description": "Consolidated silos into an agent-accessible vector database, reducing engineering overhead by 40%.",
-            "link": "#"
+            "title": "Psych Office Portal (WIP)",
+            "description": "A secure, specialized Vercel web application designed for a psychology practice, currently in active development to streamline client intake and resource management.",
+            "link": "https://psych-office.vercel.app",
+            "github": "https://github.com/AdrianaSo123/psych-office"
         }
     ],
     "philosophy": {

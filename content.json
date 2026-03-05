@@ -24,14 +24,16 @@
     ],
     "selected_works": [
         {
-            "title": "Autonomous Deployment Framework",
-            "description": "A zero-maintenance, structured JSON CMS driven entirely by GitHub Actions and deterministic AI orchestration.",
-            "link": "#"
+            "title": "Unmuted Shopify Theme",
+            "description": "A high-performance custom e-commerce theme deployed on Shopify. Built for specialized retail performance and seamless headless integrations.",
+            "link": "https://unmuted-shop.myshopify.com",
+            "github": "https://github.com/AdrianaSo123/unmuted-theme"
         },
         {
-            "title": "Enterprise Knowledge Graph Integration",
-            "description": "Consolidated silos into an agent-accessible vector database, reducing engineering overhead by 40%.",
-            "link": "#"
+            "title": "Psych Office Portal (WIP)",
+            "description": "A secure, specialized Vercel web application designed for a psychology practice, currently in active development to streamline client intake and resource management.",
+            "link": "https://psych-office.vercel.app",
+            "github": "https://github.com/AdrianaSo123/psych-office"
         }
     ],
     "philosophy": {
