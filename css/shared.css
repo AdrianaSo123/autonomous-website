@@ -165,6 +165,25 @@ h1 {
     line-height: 1.05;
 }
 
+.staggered-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.h1-start {
+    display: inline-block;
+}
+
+.h1-middle {
+    margin-left: 1.5em;
+    /* Staggered indentation */
+}
+
+.h1-end {
+    margin-left: 3em;
+    /* Deepest indentation */
+}
+
 .h1-accent {
     color: var(--text-secondary);
     display: block;
