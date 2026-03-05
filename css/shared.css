@@ -67,17 +67,18 @@ section {
 
 /* Artistic Asymmetrical Hero Grid */
 .hero-split {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: calc(var(--spacing-unit) * 6);
-    /* Anchor to top for structured layout */
+    /* Stack elements naturally inside the 720px structural wall */
     align-items: start;
 }
 
-@media (min-width: 900px) {
-    .hero-split {
+/* Ensure true full-width split only if the container allows it (e.g. standard .container, not .container-narrow) */
+@media (min-width: 1024px) {
+    .container:not(.container-narrow) .hero-split {
+        display: grid;
         grid-template-columns: 1fr 1fr;
-        /* Balance columns */
         gap: calc(var(--spacing-unit) * 8);
     }
 }
