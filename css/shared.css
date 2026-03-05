@@ -70,8 +70,8 @@ section {
     display: grid;
     grid-template-columns: 1fr;
     gap: calc(var(--spacing-unit) * 6);
-    align-items: center;
-    /* Center align for normal layout */
+    /* Anchor to top for structured layout */
+    align-items: start;
 }
 
 @media (min-width: 900px) {
@@ -150,10 +150,15 @@ section {
 }
 
 .narrative-bio p {
-    font-size: 1.05rem;
-    /* SaaS Hero Subtitle */
-    line-height: 1.5;
-    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--obsidian);
+}
+
+.lead-paragraph {
+    font-size: 1.25rem !important;
+    /* Make the bio stand out more */
 }
 
 .inline-contact a {
@@ -202,12 +207,12 @@ h1 {
 }
 
 .h1-middle {
-    margin-left: 10%;
-    /* Staggered indentation */
+    margin-left: 1.75em;
+    /* Mathematical stagger based on typeface width */
 }
 
 .h1-end {
-    margin-left: 20%;
+    margin-left: 3.5em;
     /* Deepest indentation */
 }
 
