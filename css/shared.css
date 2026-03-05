@@ -539,6 +539,38 @@ footer {
     gap: 8px;
 }
 
+.site-footer {
+    padding: calc(var(--spacing-unit) * 8) 0 calc(var(--spacing-unit) * 4);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.footer-links a {
+    color: var(--obsidian);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 0.6;
+}
+
+.footer-copyright {
+    color: var(--text-secondary);
+}
+
 .compact-post-meta {
     font-family: var(--font-meta);
     font-size: 0.75rem;

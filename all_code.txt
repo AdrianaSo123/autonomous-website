@@ -192,8 +192,15 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
             </div>
         </section>
 
-        <footer>
-            Intelligently generated. Deterministically deployed.
+        <footer class="site-footer fade-in">
+            <div class="footer-links">
+                <a href="https://github.com/AdrianaSo123" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://adrianaso.com" target="_blank" rel="noopener noreferrer">Website</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2026 Adriana So
+            </div>
         </footer>
     </div>
 
@@ -298,8 +305,15 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
             </div>
         </section>
 
-        <footer>
-            Intelligently generated. Deterministically deployed.
+        <footer class="site-footer fade-in">
+            <div class="footer-links">
+                <a href="https://github.com/AdrianaSo123" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://adrianaso.com" target="_blank" rel="noopener noreferrer">Website</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2026 Adriana So
+            </div>
         </footer>
     </div>
 
@@ -378,8 +392,15 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
             </div>
         </section>
 
-        <footer>
-            Intelligently generated. Deterministically deployed.
+        <footer class="site-footer fade-in">
+            <div class="footer-links">
+                <a href="https://github.com/AdrianaSo123" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://adrianaso.com" target="_blank" rel="noopener noreferrer">Website</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2026 Adriana So
+            </div>
         </footer>
     </div>
 
@@ -463,8 +484,15 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
             </div>
         </section>
 
-        <footer>
-            Intelligently generated. Deterministically deployed.
+        <footer class="site-footer fade-in">
+            <div class="footer-links">
+                <a href="https://github.com/AdrianaSo123" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://adrianaso.com" target="_blank" rel="noopener noreferrer">Website</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2026 Adriana So
+            </div>
         </footer>
     </div>
 
@@ -546,8 +574,15 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
             </div>
         </section>
 
-        <footer>
-            Intelligently generated. Deterministically deployed.
+        <footer class="site-footer fade-in">
+            <div class="footer-links">
+                <a href="https://github.com/AdrianaSo123" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://adrianaso.com" target="_blank" rel="noopener noreferrer">Website</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2026 Adriana So
+            </div>
         </footer>
     </div>
 
@@ -747,8 +782,15 @@ export function stripFrontmatter(markdown) {
             <div id="post-body"></div>
         </article>
 
-        <footer>
-            Intelligently generated. Deterministically deployed.
+        <footer class="site-footer fade-in">
+            <div class="footer-links">
+                <a href="https://github.com/AdrianaSo123" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/adrianaso" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://adrianaso.com" target="_blank" rel="noopener noreferrer">Website</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2026 Adriana So
+            </div>
         </footer>
     </div>
 
