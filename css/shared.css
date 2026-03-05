@@ -65,21 +65,49 @@ section {
     padding: var(--section-spacing) 0;
 }
 
-/* Artistic Asymmetrical Hero Grid */
-.hero-split {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: calc(var(--spacing-unit) * 6);
+/* Centered Artistic Hero */
+.hero-centered {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    /* Center align for normal layout, 'end' created a huge gap */
+    text-align: center;
+    padding: calc(var(--spacing-unit) * 4) 0;
 }
 
-@media (min-width: 900px) {
-    .hero-split {
-        grid-template-columns: 1.5fr 1fr;
-        /* Asymmetrical balance */
-        gap: calc(var(--spacing-unit) * 12);
-    }
+.hero-content {
+    max-width: 800px;
+    /* Constrain for readability */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bio-container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inline-contact {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+.contact-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.contact-buttons {
+    display: flex;
+    gap: 12px;
 }
 
 /* Geometric AI Nexus (Anchor) */
@@ -104,19 +132,14 @@ section {
 }
 
 .narrative-hero {
-    min-height: 80vh;
-    /* Provide scale */
     display: flex;
     align-items: center;
-    padding-top: calc(var(--section-spacing) / 1.5);
     padding-bottom: var(--section-spacing);
 }
 
 .narrative-bio {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--spacing-unit) * 4);
-    /* More breathing room */
 }
 
 .narrative-bio p {
@@ -124,21 +147,12 @@ section {
     /* SaaS Hero Subtitle */
     line-height: 1.5;
     color: var(--text-secondary);
-    margin-bottom: 0;
-}
-
-.inline-contact {
-    margin-top: calc(var(--spacing-unit) * 4);
-    font-family: var(--font-meta);
-    font-size: 0.85rem;
-    color: var(--text-secondary);
 }
 
 .inline-contact a {
     color: var(--obsidian);
     text-decoration: underline;
     text-underline-offset: 4px;
-    margin: 0 4px;
     font-weight: 500;
 }
 
@@ -160,43 +174,22 @@ h1 {
     /* Standard, elegant scale for blog posts */
     letter-spacing: -0.02em;
     font-weight: 500;
-    margin-bottom: calc(var(--spacing-unit) * 3);
     line-height: 1.1;
 }
 
 /* Specific Hero Scale */
-.narrative-header h1 {
-    font-size: clamp(3.5rem, 8vw, 7rem);
+.hero-title {
+    font-size: clamp(4rem, 10vw, 8rem);
     /* Sweeping, commanding scale strictly for the hero site title */
-    letter-spacing: -0.03em;
+    letter-spacing: -0.04em;
     font-weight: 400;
     /* Elegant, not heavy */
-    margin-bottom: calc(var(--spacing-unit) * 3);
-    line-height: 1.05;
-}
-
-.staggered-title {
-    display: flex;
-    flex-direction: column;
-}
-
-.h1-start {
-    display: inline-block;
-}
-
-.h1-middle {
-    margin-left: 1.5em;
-    /* Staggered indentation */
-}
-
-.h1-end {
-    margin-left: 3em;
-    /* Deepest indentation */
+    margin-bottom: calc(var(--spacing-unit) * 4);
+    line-height: 1.0;
 }
 
 .h1-accent {
     color: var(--text-secondary);
-    display: block;
     font-weight: 300;
     font-style: italic;
 }

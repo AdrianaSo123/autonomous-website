@@ -151,25 +151,27 @@ gh workflow run update-site.yml -f instruction="Add a new AI workflow consulting
     <div class="container container-narrow">
 
         <!-- Narrative Profile Section -->
-        <main class="hero-split narrative-hero">
-            <div class="narrative-header fade-in" data-delay="1">
-                <h1 class="staggered-title">
-                    <span class="h1-start">Systemic</span><br>
-                    <span class="h1-middle">AI</span><br>
-                    <span class="h1-end h1-accent">Design</span>
+        <main class="hero-centered fade-in">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Systemic<br>
+                    <span class="hero-ai">AI</span><br>
+                    <span class="h1-accent">Design</span>
                 </h1>
-            </div>
 
-            <div class="narrative-bio fade-in" data-delay="2">
-                <p id="brand-bio"></p>
-                <p id="philosophy-text"></p>
+                <div class="bio-container">
+                    <div class="bio-pill">INTELLIGENCE ARCHITECT</div>
+                    <p id="brand-bio" class="lead-paragraph"></p>
+                    <p id="philosophy-text"></p>
 
-                <div class="inline-contact" style="margin-top: 24px; display: flex; gap: 12px; align-items: center;">
-                    <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;">Find me
-                        elsewhere:</span>
-                    <a href="mailto:hello@adrianaso.com" class="pill-link">Email</a>
-                    <a href="https://linkedin.com/in/adrianaso" class="pill-link" target="_blank"
-                        rel="noopener noreferrer">LinkedIn</a>
+                    <div class="inline-contact">
+                        <span class="contact-label">Find me elsewhere:</span>
+                        <div class="contact-buttons">
+                            <a href="mailto:hello@adrianaso.com" class="pill-link">Email</a>
+                            <a href="https://linkedin.com/in/adrianaso" class="pill-link" target="_blank"
+                                rel="noopener noreferrer">LinkedIn</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
