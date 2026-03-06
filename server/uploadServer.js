@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const matter = require('gray-matter');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -169,7 +170,14 @@ app.post('/upload', upload.single('audio'), async (req, res) => {
             model: 'whisper-1',
         });
 
-        const transcriptText = transcription.text;
+        const transcriptText = transcription.text.trim();
+        console.log(`Original Transcript: "${transcriptText}"`);
+
+        if (transcriptText.length < 15) {
+            console.warn("Transcript too short, ignoring as hallucination/noise.");
+            return res.status(400).json({ error: "Audio was too short or did not contain clear speech." });
+        }
+
         console.log('Transcription completed. Generating blog post...');
 
         // 2. Format the text into a blog post using GPT
@@ -179,12 +187,16 @@ app.post('/upload', upload.single('audio'), async (req, res) => {
         const prompt = `
 You are an expert technical blog writer and content formatter.
 I have a raw audio transcript from a mobile recording about a technical topic or blog post idea.
-I need you to transform this transcript into a completely structured, excellent, and cohesive blog post.
-The blog post must strictly follow this exact markdown format, including the frontmatter dash separators exactly as shown:
+
+**CRITICAL INSTRUCTIONS:**
+1. If the transcript is just background noise, silent, or a short hallucination with no clear blog topic (e.g. "Thanks for watching", "MBC News"), return exactly and ONLY the string 'ERROR: NO_CONTENT'.
+2. Correct any obvious transcription errors, phonetic misspellings, or grammar issues while maintaining the original meaning.
+3. Transform this transcript into a completely structured, excellent, and cohesive blog post.
+4. The blog post must strictly follow this exact markdown format, including the frontmatter dash separators exactly as shown:
 
 ---
-title: The Perfect Post Title
-tags: ["tag1","tag2"]
+title: "The Perfect Post Title"
+tags: ["tag1", "tag2"]
 ---
 
 Markdown body text here. Make it readable, use headers if appropriate, and maintain the original message.
@@ -200,7 +212,7 @@ Raw Transcript:
         const chatCompletion = await openai.chat.completions.create({
             model: 'gpt-4o', // or gpt-4-turbo
             messages: [
-                { role: 'system', content: 'You are a blog automation system that strictly returns the requested format.' },
+                { role: 'system', content: 'You are a blog automation system that strictly returns the requested format. Correct any spelling or transcription issues.' },
                 { role: 'user', content: prompt }
             ],
             temperature: 0.7,
@@ -208,39 +220,18 @@ Raw Transcript:
 
         const generatedContentRaw = chatCompletion.choices[0].message.content.trim();
 
-        // 3. Extract Metadata from the generated markdown
-        // Use regex to locate the frontmatter section.
-        const frontmatterMatch = generatedContentRaw.match(/^---(?:[\r\n]+)([\s\S]*?)(?:[\r\n]+)---/m);
-
-        if (!frontmatterMatch) {
-            throw new Error("Generated content did not match expected frontmatter format.");
+        if (generatedContentRaw === 'ERROR: NO_CONTENT') {
+            console.warn("LLM identified transcript as noise or hallucination. Aborting.");
+            return res.status(400).json({ error: "Transcript did not contain enough meaningful content to generate a blog." });
         }
 
-        const frontmatterStr = frontmatterMatch[1];
-
-        // Parse basic key-values from the frontmatter block safely.
-        const metadata = {};
-        const lines = frontmatterStr.split('\n');
-        for (const line of lines) {
-            const colonIndex = line.indexOf(':');
-            if (colonIndex > -1) {
-                const key = line.substring(0, colonIndex).trim();
-                let value = line.substring(colonIndex + 1).trim();
-
-                if (key === 'tags') {
-                    // super basic hack to parse ["tag1", "tag2"]
-                    try {
-                        value = JSON.parse(value);
-                    } catch (e) {
-                        value = []; // fallback
-                    }
-                }
-                metadata[key] = value;
-            }
-        }
+        // 3. Extract Metadata from the generated markdown using gray-matter
+        const parsed = matter(generatedContentRaw);
+        const metadata = parsed.data;
+        const contentBody = parsed.content.trim();
 
         if (!metadata.title || !metadata.tags) {
-            throw new Error('Missing required title or tags in the generated markdown frontmatter.');
+            throw new Error('Missing required title or tags in the generated markdown frontmatter. Raw output: ' + generatedContentRaw);
         }
 
         // Apply deterministic date and slug
@@ -269,8 +260,6 @@ date: ${metadata.date}
 slug: ${metadata.slug}
 tags: ${JSON.stringify(metadata.tags)}
 ---`;
-
-        const contentBody = generatedContentRaw.replace(/^---(?:[\r\n]+)[\s\S]*?(?:[\r\n]+)---/, '').trim();
 
         const generatedContent = `${newFrontmatter}\n\n${contentBody}\n`;
 
