@@ -192,11 +192,12 @@ h4 {
 
 /* Default Typography Lockup */
 h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
     /* Standard, elegant scale for blog posts */
     letter-spacing: -0.02em;
-    font-weight: 500;
-    line-height: 1.1;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: calc(var(--spacing-unit) * 3);
 }
 
 /* Specific Hero Scale */
@@ -712,10 +713,39 @@ footer {
 }
 
 
-/* Post Content Styles */
 .post-header {
-    margin-bottom: 80px;
+    margin-top: calc(var(--spacing-unit) * 8);
+    margin-bottom: 60px;
     max-width: var(--content-max);
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    font-family: var(--font-meta);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-top: 1px solid var(--border-color);
+    padding-top: 16px;
+}
+
+.post-tags {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.tag {
+    background: var(--surface-glass);
+    border: 1px solid var(--border-color);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    color: var(--obsidian);
 }
 
 .post-body-content {
