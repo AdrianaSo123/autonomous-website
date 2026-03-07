@@ -185,11 +185,11 @@ app.post('/upload', upload.single('audio'), async (req, res) => {
         const todayDate = new Date().toISOString().split('T')[0];
 
         const prompt = `
-You are an expert technical blog writer and content formatter.
-I have a raw audio transcript from a mobile recording about a technical topic or blog post idea.
+You are an expert blog writer, journalist, and content formatter.
+I have a raw audio transcript from a mobile recording. It could be about a technical topic, a random idea, a journal entry, or a personal update.
 
 **CRITICAL INSTRUCTIONS:**
-1. If the transcript is just background noise, silent, or a short hallucination with no clear blog topic (e.g. "Thanks for watching", "MBC News"), return exactly and ONLY the string 'ERROR: NO_CONTENT'.
+1. If the transcript is very clearly just background noise, silent, or a known auto-generated hallucination with no coherent intent (e.g. "Thanks for watching", "MBC News"), return exactly and ONLY the string 'ERROR: NO_CONTENT'. Otherwise, proceed.
 2. Correct any obvious transcription errors, phonetic misspellings, or grammar issues while maintaining the original meaning.
 3. Transform this transcript into a completely structured, excellent, and cohesive blog post.
 4. The blog post must strictly follow this exact markdown format, including the frontmatter dash separators exactly as shown:
